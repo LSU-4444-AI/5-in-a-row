@@ -2,12 +2,12 @@
 public class Move {
 	private int row;
 	private int col;
-	private int crossOrRing;
+	private int player;
 	
-	public Move(int row, int col, int crossOrRing){
+	public Move(int row, int col, int xOrO){
 		this.row=row;
 		this.col=col;
-		this.crossOrRing=crossOrRing;
+		this.player=xOrO;
 	}
 	
 	public int getRow(){
@@ -18,7 +18,7 @@ public class Move {
 		return col;
 	}
 	
-	public int getCrossOrRing(){
-		return crossOrRing;
+	public int getPlayer(){
+		return player;
 	}
 }

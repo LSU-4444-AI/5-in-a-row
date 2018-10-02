@@ -26,7 +26,7 @@ public class Board {
 	}
 
 	public boolean validMove(Move move) {
-		return onBoard(move.getRow(), move.getCol()) && (move.getCrossOrRing() == 1 || move.getCrossOrRing() == 1);
+		return onBoard(move.getRow(), move.getCol()) && (move.getPlayer() == 1 || move.getPlayer() == 1);
 	}
 
 	/** Returns a copy of the board.
@@ -54,18 +54,18 @@ public class Board {
 	/**
 	 * Changes the value in cell (row,col) to xOrO if the cell is empty
 	 */
-	public boolean set(int crossOrRing, int row, int col) {
-		if (!onBoard(row, col) || !(crossOrRing == -1 || crossOrRing == 1)) {
+	public boolean set(int xOrO, int row, int col) {
+		if (!onBoard(row, col) || !(xOrO == -1 || xOrO == 1)) {
 			return false;
 		}
-		board[row][col] = crossOrRing;
-		moves.add(new Move(row, col , crossOrRing));
+		board[row][col] = xOrO;
+		moves.add(new Move(row, col , xOrO));
 		return true;
 	}
 
 	public boolean set(Move move) {
 		if (validMove(move)) {
-			board[move.getRow()][move.getCol()] = move.getCrossOrRing();
+			board[move.getRow()][move.getCol()] = move.getPlayer();
 			moves.add(move);
 			return true;
 		}
@@ -81,17 +81,17 @@ public class Board {
 	}
 
 	/** Returns true if there is n in row of cross or ring */
-	public boolean inRow(int n, int crossOrRing) {
-		return inRowHo(n, crossOrRing) || inRowVe(n, crossOrRing) || inRowDi1(n, crossOrRing)
-				|| inRowDi2(n, crossOrRing);
+	public boolean inRow(int n, int xOrO) {
+		return inRowHo(n, xOrO) || inRowVe(n, xOrO) || inRowDi1(n, xOrO)
+				|| inRowDi2(n, xOrO);
 
 	}
 
-	private boolean inRowHo(int n, int crossOrRing) {
+	private boolean inRowHo(int n, int xOrO) {
 		for (int col = 0; col < board.length; col++) {
 			int sum = 0;
 			for (int row = 0; row < board.length; row++) {
-				if (board[row][col] == crossOrRing) {
+				if (board[row][col] == xOrO) {
 					sum++;
 				} else {
 					sum = 0;
@@ -104,11 +104,11 @@ public class Board {
 		return false;
 	}
 
-	private boolean inRowVe(int n, int crossOrRing) {
+	private boolean inRowVe(int n, int xOrO) {
 		for (int row = 0; row < board.length; row++) {
 			int sum = 0;
 			for (int col = 0; col < board.length; col++) {
-				if (board[row][col] == crossOrRing) {
+				if (board[row][col] == xOrO) {
 					sum++;
 				} else {
 					sum = 0;
@@ -121,7 +121,7 @@ public class Board {
 		return false;
 	}
 
-	private boolean inRowDi1(int n, int crossOrRing) {
+	private boolean inRowDi1(int n, int xOrO) {
 		int row = 0;
 		int col = 0;
 		for (int r0 = 0; r0 < board.length; r0++) {
@@ -129,7 +129,7 @@ public class Board {
 			col = 0;
 			int sum = 0;
 			while (row < board.length && col < board.length) {
-				if (board[row][col] == crossOrRing) {
+				if (board[row][col] == xOrO) {
 					sum++;
 				} else {
 					sum = 0;
@@ -146,7 +146,7 @@ public class Board {
 			row = 0;
 			col = c0;
 			while (row < board.length && col < board.length) {
-				if (board[row][col] == crossOrRing) {
+				if (board[row][col] == xOrO) {
 					sum++;
 				} else {
 					sum = 0;
@@ -163,7 +163,7 @@ public class Board {
 
 	}
 
-	private boolean inRowDi2(int n, int crossOrRing) {
+	private boolean inRowDi2(int n, int xOrO) {
 		int row = 0;
 		int col = 0;
 		for (int r0 = 0; r0 < board.length; r0++) {
@@ -171,7 +171,7 @@ public class Board {
 			row = r0;
 			col = 0;
 			while (row >= 0 && col < board.length) {
-				if (board[row][col] == crossOrRing) {
+				if (board[row][col] == xOrO) {
 					sum++;
 				} else {
 					sum = 0;
@@ -189,7 +189,7 @@ public class Board {
 			row = board.length - 1;
 			col = c0;
 			while (row >= 0 && col < board.length) {
-				if (board[row][col] == crossOrRing) {
+				if (board[row][col] == xOrO) {
 					sum++;
 				} else {
 					sum = 0;
@@ -223,7 +223,7 @@ public class Board {
 		return board.length;
 	}
 
-	/** Returnerar true if the board is empty*/
+	/** Returns true if the board is empty*/
 	public boolean isEmpty() {
 		for (int row = 0; row < board.length; row++) {
 			for (int col = 0; col < board.length; col++) {
