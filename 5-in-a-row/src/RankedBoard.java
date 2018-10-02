@@ -12,9 +12,12 @@ public class RankedBoard extends Board {
 	}
 
 	public boolean set(Move move) {
-		rbX.updateRanking(move);
-		rbO.updateRanking(move);
-		return super.set(move);
+		if(super.set(move)){
+			rbX.updateRanking(move);
+			rbO.updateRanking(move);
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -22,22 +25,22 @@ public class RankedBoard extends Board {
 	 */
 	public void printRankings() {
 		printBoard();
-		print("X:");
+		print("X:\n");
 		for (int[] row : rbX.rb) {
 			for (int cell : row) {
 				print(cell + "\t");
 			}
-			print("");
+			print("\n");
 		}
-		print("");
-		print("O:");
+		print("\n");
+		print("O:\n");
 		for (int[] row : rbO.rb) {
 			for (int cell : row) {
 				print(cell + "\t");
 			}
-			print("");
+			print("\n");
 		}
-		print("");
+		print("\n");
 	}
 
 	/**
@@ -271,9 +274,9 @@ public class RankedBoard extends Board {
 			}
 		}
 
-		/** 5^n, 0 for n=0 */
+		/** 5^n, 0 for n<= */
 		private int exp(int n) {
-			if (n < 0)
+			if (n <= 0)
 				return 0;
 			int exp = 1;
 			for (int i = 0; i < n; i++) {
@@ -284,6 +287,15 @@ public class RankedBoard extends Board {
 	}
 
 	private static void print(String s) {
-		System.out.println(s);
+		System.out.print(s);
+	}
+	
+	public static void main(String[] args){
+		RankedBoard rb=new RankedBoard(11);
+		rb.printRankings();
+		rb.set(new Move(5,5,CROSS));
+		rb.printRankings();
+		rb.set(new Move(5,4,RING));
+		rb.printRankings();
 	}
 }

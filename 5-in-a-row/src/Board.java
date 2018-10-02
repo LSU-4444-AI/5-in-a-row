@@ -26,7 +26,7 @@ public class Board {
 	}
 
 	public boolean validMove(Move move) {
-		return onBoard(move.getRow(), move.getCol()) && (move.getPlayer() == 1 || move.getPlayer() == 1);
+		return onBoard(move.getRow(), move.getCol()) && (move.getPlayer() == 1 || move.getPlayer() == -1);
 	}
 
 	/** Returns a copy of the board.
