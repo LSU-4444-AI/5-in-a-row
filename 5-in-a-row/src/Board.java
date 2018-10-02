@@ -6,7 +6,7 @@ public class Board {
 	protected int[][] board;
 	private ArrayList<Move> moves; // Stack of the past moves
 
-	/** Creates a new board with side*side number of cells rutor */
+	/** Creates a new board with side*side number of cells */
 	public Board(int side) {
 		board = new int[side][side];
 		moves = new ArrayList<Move>();
@@ -54,13 +54,12 @@ public class Board {
 	/**
 	 * Changes the value in cell (row,col) to xOrO if the cell is empty
 	 */
-	public boolean set(int xOrO, int row, int col) {
+	public void set(int xOrO, int row, int col) {
 		if (!onBoard(row, col) || !(xOrO == -1 || xOrO == 1)) {
-			return false;
+			return;
 		}
 		board[row][col] = xOrO;
 		moves.add(new Move(row, col , xOrO));
-		return true;
 	}
 
 	public boolean set(Move move) {
@@ -241,4 +240,16 @@ public class Board {
 	public int get(int row, int col) {
 		return board[row][col];
 	}
+	
+	public RankedBoard rankedBoard(){
+        RankedBoard rb=new RankedBoard(getSide());
+        for (int row = 0; row < getSide(); row++) {
+			for (int col = 0; col < getSide(); col++) {
+                if (get(row, col) != 0){
+                    rb.set(new Move(row, col,get(row, col)));
+                }
+            }
+        }
+        return rb;
+    }
 }
