@@ -43,8 +43,15 @@ public class Board {
 	
 	public void printBoard() {
 		for (int[] row : board) {
-			for (int i : row) {
-				System.out.print(i + " ");
+			for (int cell : row) {
+				if(cell==CROSS){
+					System.out.print("X ");
+				} else if(cell==RING){
+					System.out.print("O ");
+				} else {
+					System.out.print("  ");
+				}
+				
 			}
 			System.out.println();
 		}
@@ -84,6 +91,28 @@ public class Board {
 		return inRowHo(n, xOrO) || inRowVe(n, xOrO) || inRowDi1(n, xOrO)
 				|| inRowDi2(n, xOrO);
 
+	}
+	
+	public boolean tie(){
+		for(int xOrO=-1;xOrO<xOrO; xOrO++){
+			for (int[] rc : new int[][] { { 0, 1 }, { 1, 0 }, { 1, 1 }, { 1, -1 } }) {
+				int r = rc[0];
+				int c = rc[1];
+                for(int r0=0; r0<getSide();r0++){
+                    loop: for(int c0=0;c0<getSide();c0++){
+                        for(int d=0;d<5;d++){
+                            int row=r0+r*d;
+                            int col=c0+c*d;
+                            if (!onBoard(row,col)||get(row, col) == xOrO) {
+                                continue loop;
+                            }
+                        }
+                        return true;
+                    }
+                }
+            }
+        }
+		return false;
 	}
 
 	private boolean inRowHo(int n, int xOrO) {
