@@ -94,7 +94,7 @@ public class Board {
 	}
 	
 	public boolean tie(){
-		for(int xOrO=-1;xOrO<xOrO; xOrO++){
+		for(int xOrO=-1;xOrO<2; xOrO+=2){
 			for (int[] rc : new int[][] { { 0, 1 }, { 1, 0 }, { 1, 1 }, { 1, -1 } }) {
 				int r = rc[0];
 				int c = rc[1];
@@ -107,12 +107,12 @@ public class Board {
                                 continue loop;
                             }
                         }
-                        return true;
+                        return false;
                     }
                 }
             }
         }
-		return false;
+		return true;
 	}
 
 	private boolean inRowHo(int n, int xOrO) {
