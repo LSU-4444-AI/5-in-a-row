@@ -10,13 +10,13 @@ public class FiveInARow {
 			for (Player p : players) {
 				board.printBoard();
 				p.nextMove();
-				/*
+				
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(500);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				*/
+				
 				int win=board.win();
 				if(win!=0){
 					if(win==Board.CROSS)

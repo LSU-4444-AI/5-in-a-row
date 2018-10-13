@@ -14,7 +14,7 @@ public class QuickBot implements Player {
     
     public void nextMove(){
         if(board.isEmpty()){
-            board.set(new Move(board.getSide()/3,board.getSide()/2, xOrO));
+            board.set(new Move(board.getSide()/2,board.getSide()/2, xOrO));
         }
         else{
             ArrayList<Move> bestMoves=board.rankedBoard().bestMovesFor(xOrO);
