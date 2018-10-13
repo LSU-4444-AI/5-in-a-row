@@ -181,6 +181,13 @@ public class RankedBoard extends Board {
 		}
 		return bestMoves;
 	}
+	
+	@Override
+	public void clear() {
+		super.clear();
+		rbX = new RB(CROSS, getSide());
+		rbO = new RB(RING, getSide());
+	}
 
 	private class RB {
 		int[][] rb;
