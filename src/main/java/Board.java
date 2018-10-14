@@ -42,7 +42,14 @@ public class Board {
 	}
 	
 	public void printBoard() {
+		int boardSize = board[0].length * 2;
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < boardSize + 2; i++) {
+			sb.append("-");
+		}
+		System.out.print(sb.toString().concat("\n"));
 		for (int[] row : board) {
+		    System.out.print("|");
 			for (int cell : row) {
 				if(cell==CROSS){
 					System.out.print("X ");
@@ -51,9 +58,12 @@ public class Board {
 				} else {
 					System.out.print("  ");
 				}
-				
 			}
+			System.out.print("|");
 			System.out.println();
+		}
+		for (int i = 0; i < boardSize + 2; i++) {
+			System.out.print("-");
 		}
 		System.out.println();
 	}
