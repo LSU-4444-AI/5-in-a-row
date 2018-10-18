@@ -37,7 +37,7 @@ public abstract class NeuralBot implements Player {
         }
     }
     
-    /**Creates input vector for the neural network
+    /**Creates input vector for the neural network 
      * 
      * @param board
      * @param player
