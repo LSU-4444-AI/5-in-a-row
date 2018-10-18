@@ -1,19 +1,26 @@
 import java.util.ArrayList;
 import java.util.Random;
+import aima.core.learning.neural;
 
 public abstract class NeuralBot implements Player {
 	Board board;
     int xOrO;
     Random r;
-    final int nodes;
-    final int layers;
+    NNConfig config;
+    FeedForwardNeuralNetwork nnet;
     
-    public NeuralBot(Board board, int xOrO, int nodes, int layers){
+    
+    public NeuralBot(Board board, int xOrO, int numInputs, int numOutputs, int numHiddenNodes, double weightLimitUp, double weightLimitDown, double learningRate, double momentum){
     	this.board=board;
     	this.xOrO=xOrO;
     	r=new Random();
-    	this.nodes=nodes;
-    	this.layers=layers;
+    	this.config.setConfig("number_of_inputs", numInputs);
+    	this.config.setConfig("number_of_outputs", numOutputs);
+    	this.config.setConfig("number_of_hidden_neurons", numHiddenNodes);
+    	this.config.setConfig("upper_limit_weights", weightLimitUp);
+    	this.config.setConfig("lower_limit_weights", weightLimitDown);
+    	this.nnet = new FeedForwardNeuralNetwork(this.config);
+    	this.nnet.setTrainingScheme(new BackPropLearning(learningRate, momentum));
     }
     
     public void nextMove(){
@@ -51,7 +58,7 @@ public abstract class NeuralBot implements Player {
 		// TODO Auto-generated method stub
 	}
 	
-	/**Trains the neural network based on data from one practice game.
+	/**Trains the neural network based on a data set.
 	 * 
 	 */
 	private void train(){
