@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Random;
-import aima.core.learning.neural;
+
+import aima.core.learning.neural.BackPropLearning;
+import aima.core.learning.neural.FeedForwardNeuralNetwork;
+import aima.core.learning.neural.NNConfig;
 
 public abstract class NeuralBot implements Player {
 	Board board;
