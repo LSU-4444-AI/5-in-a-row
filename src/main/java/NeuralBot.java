@@ -4,6 +4,7 @@ import java.util.Random;
 import aima.core.learning.neural.BackPropLearning;
 import aima.core.learning.neural.FeedForwardNeuralNetwork;
 import aima.core.learning.neural.NNConfig;
+import aima.core.util.math.Vector;
 
 public abstract class NeuralBot implements Player {
 	Board board;
@@ -42,7 +43,7 @@ public abstract class NeuralBot implements Player {
      * @param player
      * @return
      */
-    protected abstract Object state(Board board, int player);
+    protected abstract Vector state(Board board, int player);
 
     /**List of the best moves
      * 
