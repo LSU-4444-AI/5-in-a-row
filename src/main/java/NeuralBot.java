@@ -14,12 +14,12 @@ public abstract class NeuralBot implements Player {
     FeedForwardNeuralNetwork nnet;
     
     
-    public NeuralBot(Board board, int xOrO, int numInputs, int numOutputs, int numHiddenNodes, double weightLimitUp, double weightLimitDown, double learningRate, double momentum){
+    public NeuralBot(Board board, int xOrO, int numInputs, int numHiddenNodes, double weightLimitUp, double weightLimitDown, double learningRate, double momentum){
     	this.board=board;
     	this.xOrO=xOrO;
     	r=new Random();
     	this.config.setConfig("number_of_inputs", numInputs);
-    	this.config.setConfig("number_of_outputs", numOutputs);
+    	this.config.setConfig("number_of_outputs", 3);
     	this.config.setConfig("number_of_hidden_neurons", numHiddenNodes);
     	this.config.setConfig("upper_limit_weights", weightLimitUp);
     	this.config.setConfig("lower_limit_weights", weightLimitDown);
@@ -44,14 +44,49 @@ public abstract class NeuralBot implements Player {
      * @return
      */
     protected abstract Vector state(Board board, int player);
+    
+    
+    /**Evaluates output vector [P(W), P(T), P(L)] for optimality
+     * 
+     * @param output
+     * @return
+     */
+    private double outEval(Vector output) {
+    	//TODO Create actual evaluation metric
+    	return null;
+    }
 
     /**List of the best moves
      * 
      * @return
      */
 	private ArrayList<Move> bestMoves() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Move> bestMoves = new ArrayList<>();
+		int side = board.length;
+		Board temp = board.copy();
+		double max = 0;
+		for (int row = 0; row < side; row++) {
+			for (int col = 0; col < side; col++) {
+				if (board.get(row, col) == 0) {
+					temp.set(this.xOrO, row, col);
+					if(temp.win()){
+						ArrayList<Move> winningMove = new ArrayList<Move>();
+						winningMove.add(new Move(row, col, xOrO));
+						return winningMove;
+					}
+					double eval = outEval(nnet.processInput(state(temp, xOrO)));
+					if (max < eval) {
+						max = ranking;
+						bestMoves = new ArrayList<>();
+						bestMoves.add(new Move(row, col, xOrO));
+					} else if (max == ranking) {
+						bestMoves.add(new Move(row, col, xOrO));
+					}
+					temp.undo();
+				}
+			}
+		}
+		return bestMoves;
 	}
 	
 	/**The bot practicing against a player using the ranked board to find best moves.
