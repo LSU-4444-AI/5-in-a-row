@@ -53,7 +53,7 @@ public abstract class NeuralBot implements Player {
      */
     private double outEval(Vector output) {
     	//TODO Create actual evaluation metric
-    	return null;
+    	return output.getValue(0)-output.getValue(2);
     }
 
     /**List of the best moves
@@ -62,20 +62,20 @@ public abstract class NeuralBot implements Player {
      */
 	private ArrayList<Move> bestMoves() {
 		ArrayList<Move> bestMoves = new ArrayList<>();
-		int side = board.length;
+		int side = board.getSide();
 		Board temp = board.copy();
 		double max = 0;
 		for (int row = 0; row < side; row++) {
 			for (int col = 0; col < side; col++) {
 				if (board.get(row, col) == 0) {
 					temp.set(this.xOrO, row, col);
-					if(temp.win()){
+					if(temp.win()==xOrO){
 						ArrayList<Move> winningMove = new ArrayList<Move>();
 						winningMove.add(new Move(row, col, xOrO));
 						return winningMove;
 					}
-					double eval = outEval(nnet.processInput(state(temp, xOrO)));
-					if (max < eval) {
+					double ranking = outEval(nnet.processInput(state(temp, xOrO)));
+					if (max < ranking) {
 						max = ranking;
 						bestMoves = new ArrayList<>();
 						bestMoves.add(new Move(row, col, xOrO));
