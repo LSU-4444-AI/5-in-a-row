@@ -14,7 +14,7 @@ public class ZeroBot extends NeuralBot{
 
 	@Override
 	protected Vector state(Board board, int player) {
-		// TODO Auto-generated method stub
+		// Turn the board in to a side*side*2 long vector with values 0 and 1
 		return null;
 	}
 

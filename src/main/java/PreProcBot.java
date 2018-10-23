@@ -1,7 +1,7 @@
 import aima.core.util.math.Vector;
 
 /**
- * NeuralBot with any preprocessing.
+ * NeuralBot with preprocessing.
  * @author Frej
  *
  */
@@ -15,7 +15,8 @@ public class PreProcBot extends NeuralBot{
 	@Override
 	protected Vector state(Board board, int player) {
 		RankedBoard rb=board.rankedBoard();
-		//Concatinate the ranked boards for the players 
+		// Turn the rankedboard in to a side*side*2 long vector
+		//You will probably need to add a method for this in RankedBoard
 		return null;
 	}
 
