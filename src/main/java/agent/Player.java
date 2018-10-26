@@ -1,3 +1,5 @@
+package agent;
+
 /* Interface for 5-in-a-row-agents **/
 public  interface Player {
 	

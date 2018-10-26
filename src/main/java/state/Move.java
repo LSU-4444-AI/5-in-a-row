@@ -1,3 +1,4 @@
+package state;
 
 public class Move {
 	private int row;

@@ -1,3 +1,7 @@
+import agent.Player;
+import agent.QuickBot;
+import state.Board;
+
 import java.util.ArrayList;
 
 public class FiveInARow {

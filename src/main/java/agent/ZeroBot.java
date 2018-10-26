@@ -1,7 +1,10 @@
+package agent;
+
 import aima.core.util.math.Vector;
+import state.Board;
 
 /**
- * NeuralBot without any preprocessing.
+ * agent.NeuralBot without any preprocessing.
  * @author Frej
  *
  */

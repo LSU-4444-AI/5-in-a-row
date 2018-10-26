@@ -1,8 +1,10 @@
+package state;
+
 import java.util.ArrayList;
 
 public class Board {
-	static final int CROSS = -1;
-	static final int RING = 1;
+	public static final int CROSS = -1;
+	public static final int RING = 1;
 	protected int[][] board;
 	private ArrayList<Move> moves; // Stack of the past moves
 
