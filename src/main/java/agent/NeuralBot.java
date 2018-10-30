@@ -2,11 +2,22 @@ package agent;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.File;
+import java.io.IOException;
 
-import aima.core.learning.neural.BackPropLearning;
-import aima.core.learning.neural.FeedForwardNeuralNetwork;
-import aima.core.learning.neural.NNConfig;
-import aima.core.util.math.Vector;
+import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
+import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
+import org.deeplearning4j.nn.conf.Updater;
+import org.deeplearning4j.nn.conf.layers.DenseLayer;
+import org.deeplearning4j.nn.conf.layers.OutputLayer;
+import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
+import org.deeplearning4j.nn.weights.WeightInit;
+import org.deeplearning4j.util.ModelSerializer;
+import org.nd4j.linalg.activations.Activation;
+import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.learning.config.Nesterovs;
+import org.nd4j.linalg.lossfunctions.LossFunctions;
+
 import state.Board;
 import state.Move;
 
@@ -14,21 +25,41 @@ public abstract class NeuralBot implements Player {
 	Board board;
     int xOrO;
     Random r;
-    NNConfig config;
-    FeedForwardNeuralNetwork nnet;
+    MultiLayerNetwork nnet;
+    File saveLocation;
     
     
-    public NeuralBot(Board board, int xOrO, int numInputs, int numHiddenNodes, double weightLimitUp, double weightLimitDown, double learningRate, double momentum){
+    public NeuralBot(Board board, int xOrO, String filepath){
     	this.board=board;
     	this.xOrO=xOrO;
     	r=new Random();
-    	this.config.setConfig("number_of_inputs", numInputs);
-    	this.config.setConfig("number_of_outputs", 3);
-    	this.config.setConfig("number_of_hidden_neurons", numHiddenNodes);
-    	this.config.setConfig("upper_limit_weights", weightLimitUp);
-    	this.config.setConfig("lower_limit_weights", weightLimitDown);
-    	this.nnet = new FeedForwardNeuralNetwork(this.config);
-    	this.nnet.setTrainingScheme(new BackPropLearning(learningRate, momentum));
+    	int inputSize = 2 * board.getSide() * board.getSide();
+    	final int outputSize = 3;
+    	final int hiddenNodes = 1024;
+    	
+    	this.saveLocation = new File(filepath);
+    	if(saveLocation.exists()){
+    		try {
+				nnet = ModelSerializer.restoreMultiLayerNetwork(this.saveLocation);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	else {
+    		MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
+        		.weightInit(WeightInit.XAVIER)
+        		.updater(new Nesterovs(0.1, 0.9))
+        		.list()
+        		.layer(0, new DenseLayer.Builder().nIn(inputSize).nOut(hiddenNodes).activation(Activation.RELU).build())
+        		.layer(1, new DenseLayer.Builder().nIn(hiddenNodes).nOut(hiddenNodes).activation(Activation.RELU).build())
+        		.layer(2, new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD).activation(Activation.SOFTMAX).nIn(hiddenNodes).nOut(outputSize).build())
+        		.backprop(true).pretrain(false).build();
+    	
+    		nnet = new MultiLayerNetwork(conf);
+    		nnet.init();
+    	}
+    	
     }
     
     public void nextMove(){
@@ -41,13 +72,26 @@ public abstract class NeuralBot implements Player {
         }
     }
     
+    /**Saves network to file
+     * 
+     * 
+     */
+    private void save(){
+    	try {
+			ModelSerializer.writeModel(nnet, saveLocation, true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
     /**Creates input vector for the neural network 
      * 
      * @param board
      * @param player
      * @return
      */
-    protected abstract Vector state(Board board, int player);
+    protected abstract INDArray state(Board board, int player, int row, int col);
     
     
     /**Evaluates output vector [P(W), P(T), P(L)] for optimality
@@ -55,9 +99,9 @@ public abstract class NeuralBot implements Player {
      * @param output
      * @return
      */
-    private double outEval(Vector output) {
+    private double optimality(double pW, double pT, double pTieLoss, double pLoss) {
     	//TODO Create actual evaluation metric
-    	return output.getValue(0)-output.getValue(2);
+    	return pW + (pT*pTieLoss/(1-pW)) + pLoss;
     }
 
     /**List of the best moves
@@ -68,7 +112,9 @@ public abstract class NeuralBot implements Player {
 		ArrayList<Move> bestMoves = new ArrayList<>();
 		int side = board.getSide();
 		Board temp = board.copy();
-		double max = 0;
+		double pLoss = 1;
+		double pTieLoss = 1;
+		ArrayList<INDArray> outputs = new ArrayList<>();
 		for (int row = 0; row < side; row++) {
 			for (int col = 0; col < side; col++) {
 				if (board.get(row, col) == 0) {
@@ -78,16 +124,29 @@ public abstract class NeuralBot implements Player {
 						winningMove.add(new Move(row, col, xOrO));
 						return winningMove;
 					}
-					double ranking = outEval(nnet.processInput(state(temp, xOrO)));
-					if (max < ranking) {
-						max = ranking;
-						bestMoves = new ArrayList<>();
-						bestMoves.add(new Move(row, col, xOrO));
-					} else if (max == ranking) {
-						bestMoves.add(new Move(row, col, xOrO));
-					}
 					temp.undo();
+					INDArray out = nnet.output(state(temp, xOrO, row, col));
+					pLoss *= out.getDouble(2);
+					pTieLoss *= out.getDouble(1);
+					outputs.add(out);
+					
 				}
+			}
+		}
+		pTieLoss = pTieLoss + pLoss;
+		double max = 0;
+		int i = 0;
+		for (int row = 0; row < side; row++) {
+			for (int col = 0; col < side; col++) {
+				double ranking = optimality(outputs.get(i).getDouble(0), outputs.get(i).getDouble(1), pTieLoss, pLoss));
+				if (max < ranking) {
+					max = ranking;
+					bestMoves = new ArrayList<>();
+					bestMoves.add(new Move(row, col, xOrO));
+				} else if (max == ranking) {
+					bestMoves.add(new Move(row, col, xOrO));
+				}
+				i++;
 			}
 		}
 		return bestMoves;

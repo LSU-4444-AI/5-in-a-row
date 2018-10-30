@@ -21,7 +21,25 @@ public class RankedBoard extends Board {
 		}
 		return false;
 	}
+	
+	public boolean set(int xOrO, int row, int col) {
+		Move move = new Move(xOrO, row, col);
+		if(super.set(move)){
+			rbX.updateRanking(move);
+			rbO.updateRanking(move);
+			return true;
+		}
+		return false;
+	}
 
+	public int[][] rbX(){
+		return this.rbX.rb();
+	}
+	
+	public int[][] rbO(){
+		return this.rbO.rb();
+	}
+	
 	/**
 	 * Useful print for testing
 	 */
@@ -292,6 +310,10 @@ public class RankedBoard extends Board {
 				exp = exp * 5;
 			}
 			return exp;
+		}
+		
+		public int[][] rb(){
+			return this.rb;
 		}
 	}
 

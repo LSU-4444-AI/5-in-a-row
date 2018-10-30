@@ -73,12 +73,13 @@ public class Board {
 	/**
 	 * Changes the value in cell (row,col) to xOrO if the cell is empty
 	 */
-	public void set(int xOrO, int row, int col) {
+	public boolean set(int xOrO, int row, int col) {
 		if (!onBoard(row, col) || !(xOrO == -1 || xOrO == 1)) {
-			return;
+			return false;
 		}
 		board[row][col] = xOrO;
 		moves.add(new Move(row, col , xOrO));
+		return true;
 	}
 
 	public boolean set(Move move) {
