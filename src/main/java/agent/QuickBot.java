@@ -1,3 +1,8 @@
+package agent;
+
+import state.Board;
+import state.Move;
+
 import java.util.ArrayList;
 import java.util.Random;
 

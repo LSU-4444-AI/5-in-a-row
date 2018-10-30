@@ -1,3 +1,5 @@
+package state;
+
 import java.util.ArrayList;
 
 /** A board where each cell is ranked. Ranking does not support undo. */

@@ -1,7 +1,11 @@
+package agent;
+
 import aima.core.util.math.Vector;
+import state.Board;
+import state.RankedBoard;
 
 /**
- * NeuralBot with preprocessing.
+ * agent.NeuralBot with preprocessing.
  * @author Frej
  *
  */
@@ -16,7 +20,7 @@ public class PreProcBot extends NeuralBot{
 	protected Vector state(Board board, int player) {
 		RankedBoard rb=board.rankedBoard();
 		// Turn the rankedboard in to a side*side*2 long vector
-		//You will probably need to add a method for this in RankedBoard
+		//You will probably need to add a method for this in state.RankedBoard
 		return null;
 	}
 
