@@ -52,6 +52,7 @@ public class PreProcBot extends NeuralBot{
 				i++;
 			}
 		}
+		input.muli(1/100000.0);
 		return input;
 	}
 
