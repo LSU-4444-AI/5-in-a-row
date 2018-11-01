@@ -91,7 +91,7 @@ public abstract class NeuralBot implements Player {
      * @param player
      * @return
      */
-    protected abstract INDArray state(Board board, int player, int row, int col);
+    protected abstract INDArray state(Board board, int player);
     
     
     /**Evaluates output vector [P(W), P(T), P(L)] for optimality
@@ -124,12 +124,11 @@ public abstract class NeuralBot implements Player {
 						winningMove.add(new Move(row, col, xOrO));
 						return winningMove;
 					}
-					temp.undo();
-					INDArray out = nnet.output(state(temp, xOrO, row, col));
+					INDArray out = nnet.output(state(temp, xOrO));
 					pLoss *= out.getDouble(2);
 					pTieLoss *= out.getDouble(0);
 					outputs.add(out);
-					
+					temp.undo();
 				}
 			}
 		}

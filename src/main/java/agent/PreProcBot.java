@@ -22,10 +22,9 @@ public class PreProcBot extends NeuralBot{
 	}
 
 	@Override
-	protected INDArray state(Board board, int player, int r, int c) {
+	protected INDArray state(Board board, int player) {
 		int side = board.getSide();
 		RankedBoard rb=board.rankedBoard();
-		rb.set(player, r, c);
 		int[][] playersRanking = new int[side][side];
 		int[][] opponentsRanking = new int[side][side];
 		switch (player) {

@@ -21,9 +21,8 @@ public class ZeroBot extends NeuralBot{
 	}
 
 	@Override
-	protected INDArray state(Board board, int player, int r, int c) {
+	protected INDArray state(Board board, int player) {
 		// Turn the board in to a side*side*2 long vector with values 0 and 1
-		board.set(player, r, c);
 		int side = board.getSide();
 		INDArray input = Nd4j.zeros(side * side * 2);
 		int i = 0;

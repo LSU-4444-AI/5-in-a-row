@@ -1,5 +1,7 @@
 import agent.Player;
+import agent.PreProcBot;
 import agent.QuickBot;
+import agent.ZeroBot;
 import state.Board;
 
 import java.util.ArrayList;
@@ -9,7 +11,7 @@ public class FiveInARow {
 		Board board = new Board(11);
 		ArrayList<Player> players = new ArrayList<>();
 		players.add(new QuickBot(board, -1));
-		players.add(new QuickBot(board, 1));
+		players.add(new PreProcBot(board, 1));
 		while (true) {
 			for (Player p : players) {
 				board.printBoard();
