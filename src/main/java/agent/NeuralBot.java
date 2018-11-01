@@ -119,11 +119,13 @@ public abstract class NeuralBot implements Player {
 			for (int col = 0; col < side; col++) {
 				if (board.get(row, col) == 0) {
 					temp.set(this.xOrO, row, col);
+					/*
 					if(temp.win()==xOrO){
 						ArrayList<Move> winningMove = new ArrayList<Move>();
 						winningMove.add(new Move(row, col, xOrO));
 						return winningMove;
 					}
+					*/
 					INDArray out = nnet.output(state(temp, xOrO));
 					pLoss *= out.getDouble(2);
 					pTieLoss *= out.getDouble(0);
@@ -133,16 +135,19 @@ public abstract class NeuralBot implements Player {
 			}
 		}
 		pTieLoss = 1 - pTieLoss;
-		double max = 0;
+		double max = -1;
+		INDArray chosenOutput=null;
 		int i = 0;
 		for (int row = 0; row < side; row++) {
 			for (int col = 0; col < side; col++) {
 				if (board.get(row, col) == 0) {
 					double ranking = optimality(outputs.get(i).getDouble(0), outputs.get(i).getDouble(1), pTieLoss, pLoss);
+					print(ranking);
 					if (max < ranking) {
 						max = ranking;
 						bestMoves = new ArrayList<>();
 						bestMoves.add(new Move(row, col, xOrO));
+						chosenOutput=outputs.get(i);
 					} else if (max == ranking) {
 						bestMoves.add(new Move(row, col, xOrO));
 					}
@@ -150,6 +155,7 @@ public abstract class NeuralBot implements Player {
 				}
 			}
 		}
+		print("Probabilities: "+chosenOutput);
 		return bestMoves;
 	}
 	
@@ -177,5 +183,9 @@ public abstract class NeuralBot implements Player {
 	 */
 	private double newRanking(double oldRanking, double nextRanking, double optimality){
 		return optimality*nextRanking+(1-optimality)*oldRanking;
+	}
+	
+	private void print(Object o){
+		System.out.println(o);
 	}
 }
