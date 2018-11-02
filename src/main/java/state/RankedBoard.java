@@ -7,7 +7,7 @@ public class RankedBoard extends Board {
 	private RB rbX;
 	private RB rbO;
 
-	RankedBoard(int side) {
+	public RankedBoard(int side) {
 		super(side);
 		rbX = new RB(CROSS, side);
 		rbO = new RB(RING, side);

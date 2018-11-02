@@ -2,6 +2,7 @@ package agent;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.function.Function;
 import java.io.File;
 import java.io.IOException;
 
@@ -15,11 +16,13 @@ import org.deeplearning4j.nn.weights.WeightInit;
 import org.deeplearning4j.util.ModelSerializer;
 import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.learning.config.Nesterovs;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
 
 import state.Board;
 import state.Move;
+import state.RankedBoard;
 
 public abstract class NeuralBot implements Player {
 	Board board;
@@ -27,6 +30,7 @@ public abstract class NeuralBot implements Player {
     Random r;
     MultiLayerNetwork nnet;
     File saveLocation;
+    final int epochs=10;
     
     
     public NeuralBot(Board board, int xOrO, String filepath){
@@ -63,14 +67,15 @@ public abstract class NeuralBot implements Player {
     }
     
     public void nextMove(){
+    	/*
         if(board.isEmpty()){
             board.set(new Move(board.getSide()/2,board.getSide()/2, xOrO));
         }
         else{
+        */
             ArrayList<Move> bestMoves=bestMoves();
             board.set(bestMoves.get(r.nextInt(bestMoves.size())));
-        }
-    }
+            }
     
     /**Saves network to file
      * 
@@ -128,13 +133,13 @@ public abstract class NeuralBot implements Player {
 					*/
 					INDArray out = nnet.output(state(temp, xOrO));
 					pLoss *= out.getDouble(2);
-					pTieLoss *= out.getDouble(0);
+					pTieLoss *= 1-out.getDouble(0);
 					outputs.add(out);
 					temp.undo();
 				}
 			}
 		}
-		pTieLoss = 1 - pTieLoss;
+		
 		double max = -1;
 		INDArray chosenOutput=null;
 		int i = 0;
@@ -163,15 +168,144 @@ public abstract class NeuralBot implements Player {
 	 * The practicing continues until it has beaten the opponent 10 times in a row.
 	 * 
 	 */
-	private void practice(){
-		// TODO Auto-generated method stub
+	public void practice(){
+		boolean starting=false;
+		for( int i=0; i<10000;i++){
+			DataSet newRankings=playPracticeGame(starting);
+			train(newRankings);
+			starting=!starting;
+		}
 	}
 	
+	private DataSet generateData(ArrayList<Choice> choices, boolean win) {
+		for(int i=choices.size()-1;i>=1;i--){
+			ArrayList<INDArray> inputs=rotations(choices.get(i).input);
+
+		}
+		
+		
+		return new DataSet();
+	}
+
+	private ArrayList<INDArray> rotations(INDArray input) {
+		ArrayList<INDArray> rotations=new ArrayList<>();
+		rotations.add(input);
+		//TODO
+		return rotations;
+	}
+
+	private DataSet playPracticeGame(boolean playersTurn) {
+		RankedBoard rb= new RankedBoard(board.getSide());
+		ArrayList<Choice> choices= new ArrayList<>();
+		boolean win=false;
+		while (true) {
+			if(playersTurn){
+				choices.add(nextMoveForTraining(rb));
+			} else {
+				choices.add(opponentsNextMove(rb));
+			}
+			if(choices.get(choices.size()-1).win){
+				win=true;
+				break;
+			} 
+			if(rb.tie()){
+				break;
+			}
+			playersTurn=!playersTurn;
+		}
+		return generateData(choices, win);
+	}
+
+	private Choice opponentsNextMove(RankedBoard rb) {
+		ArrayList<Move> bestMoves = rb.bestMovesFor(-xOrO);
+		Move move = bestMoves.get(r.nextInt(bestMoves.size()));
+		int side = rb.getSide();
+		double pLoss = 1;
+		double pTieLoss = 1;
+		INDArray output=null;
+		INDArray input=null;
+		for (int row = 0; row < side; row++) {
+			for (int col = 0; col < side; col++) {
+				if (rb.get(row, col) == 0) {
+					rb.set(this.xOrO, row, col);
+					INDArray in=state(rb, xOrO);
+					INDArray out = nnet.output(in);
+					pLoss *= out.getDouble(2);
+					pTieLoss *= 1-out.getDouble(0);
+					if(row==move.getRow()&&col==move.getCol()){
+						output=out;
+						input=in;
+					}
+					rb.undo();
+				}
+			}
+		}
+		boolean win=rb.winningMove(move);
+		rb.set(move);
+		return new Choice(input, output, pTieLoss, pLoss,win);
+	}
+
+	private Choice nextMoveForTraining(RankedBoard rb) {
+		ArrayList<Move> bestMoves = new ArrayList<>();
+		int side = rb.getSide();
+		Board temp = rb.copy();
+		double pLoss = 1;
+		double pTieLoss = 1;
+		ArrayList<INDArray> outputs = new ArrayList<>();
+		ArrayList<INDArray> inputs = new ArrayList<>();
+		for (int row = 0; row < side; row++) {
+			for (int col = 0; col < side; col++) {
+				if (rb.get(row, col) == 0) {
+					temp.set(this.xOrO, row, col);
+					/*
+					if(temp.win()==xOrO){
+						ArrayList<Move> winningMove = new ArrayList<Move>();
+						winningMove.add(new Move(row, col, xOrO));
+						return winningMove;
+					}
+					*/
+					INDArray in=state(temp, xOrO);
+					INDArray out = nnet.output(in);
+					pLoss *= out.getDouble(2);
+					pTieLoss *= 1-out.getDouble(0);
+					outputs.add(out);
+					inputs.add(in);
+					temp.undo();
+				}
+			}
+		}
+		
+		double max = -1;
+		int i = 0;
+		for (int row = 0; row < side; row++) {
+			for (int col = 0; col < side; col++) {
+				if (rb.get(row, col) == 0) {
+					double ranking = optimality(outputs.get(i).getDouble(0), outputs.get(i).getDouble(1), pTieLoss, pLoss);
+					print(ranking);
+					if (max < ranking) {
+						max = ranking;
+						bestMoves = new ArrayList<>();
+						bestMoves.add(new Move(row, col, xOrO));
+					} else if (max == ranking) {
+						bestMoves.add(new Move(row, col, xOrO));
+					}
+					i++;
+				}
+			}
+		}
+		int n=r.nextInt(bestMoves.size());
+		boolean win = rb.winningMove(bestMoves.get(n));
+		rb.set(bestMoves.get(n));
+		return new Choice(inputs.get(n), outputs.get(n), pTieLoss, pLoss,win);
+	}
+
 	/**Trains the neural network based on a data set.
 	 * 
 	 */
-	private void train(){
-		// TODO Auto-generated method stub
+	private void train(DataSet newRankings){
+		for(int i=0;i<epochs;i++){
+			nnet.fit(newRankings);
+		}
 	}
 	
 	/** New values for the ranking of a state based on probability theory and stuff.
@@ -183,6 +317,21 @@ public abstract class NeuralBot implements Player {
 	 */
 	private double newRanking(double oldRanking, double nextRanking, double optimality){
 		return optimality*nextRanking+(1-optimality)*oldRanking;
+	}
+	
+	private static class Choice{
+		INDArray input;
+		INDArray output;
+		double pTieLoss; 
+		double pLoss;
+		boolean win;
+		Choice(INDArray input, INDArray output, double pTieLoss, double pLoss, boolean win){
+			this.input=input;
+			this.output=output;
+			this.pTieLoss=pTieLoss;
+			this.pLoss=pLoss;
+			this.win=win;
+		}
 	}
 	
 	private void print(Object o){
