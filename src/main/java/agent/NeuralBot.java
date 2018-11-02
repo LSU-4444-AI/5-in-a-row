@@ -17,6 +17,7 @@ import org.deeplearning4j.util.ModelSerializer;
 import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
+import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.learning.config.Nesterovs;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
 
@@ -181,13 +182,37 @@ public abstract class NeuralBot implements Player {
 	}
 	
 	private DataSet generateData(ArrayList<Choice> choices, boolean win) {
+		INDArray input=Nd4j.zeros(choices.size(),2 * board.getSide() * board.getSide());
+		INDArray output=Nd4j.zeros(choices.size(),3);
+		double pWin;
+		double pTie;
+		INDArray nextOut=Nd4j.zeros(3);
+		if(win){
+			pWin=1;
+			pTie=0;
+			nextOut.putScalar(0,1);
+		} else {
+			pWin=0;
+			pTie=1;
+			nextOut.putScalar(1,1);
+		}
 		for(int i=choices.size()-1;i>=1;i--){
-			ArrayList<INDArray> inputs=rotations(choices.get(i).input);
-
+			Choice c=choices.get(i);
+			ArrayList<INDArray> in=rotations(c.input);
+			INDArray out=c.output;
+			double optimality=pWin + (pTie*c.pTieLoss/(1-out.getDouble(0))) + (1-pWin-pTie)*c.pLoss/out.getDouble(2);
+			out.muli(1-optimality);
+			nextOut.muli(optimality);
+			out.add(nextOut);
+			//Reversing the probability vector for opposite player
+			nextOut=Nd4j.zeros(3);
+			nextOut.putScalar(0, out.getDouble(2));
+			nextOut.putScalar(1, out.getDouble(1));
+			nextOut.putScalar(2, out.getDouble(0));
 		}
 		
 		
-		return new DataSet();
+		return new DataSet(input,output);
 	}
 
 	private ArrayList<INDArray> rotations(INDArray input) {
@@ -202,7 +227,7 @@ public abstract class NeuralBot implements Player {
 		ArrayList<Choice> choices= new ArrayList<>();
 		boolean win=false;
 		while (true) {
-			rb.printBoard();
+			//rb.printBoard();
 			if(playersTurn){
 				choices.add(nextMoveForTraining(rb));
 				if(choices.get(choices.size()-1).win){
@@ -254,7 +279,6 @@ public abstract class NeuralBot implements Player {
 		}
 		boolean win=rb.winningMove(move);
 		rb.set(move);
-		rb.printRankings();
 		return new Choice(input, output, pTieLoss, pLoss,win);
 	}
 
