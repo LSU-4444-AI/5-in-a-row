@@ -47,5 +47,11 @@ public class ZeroBot extends NeuralBot{
 		}
 		return input;
 	}
+	
+	public static void main(String[] args){
+		Board b=new Board(11);
+		ZeroBot bot= new ZeroBot(b,1);
+		bot.practice();
+	}
 
 }

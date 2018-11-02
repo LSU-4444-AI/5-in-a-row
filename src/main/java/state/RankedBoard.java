@@ -23,7 +23,7 @@ public class RankedBoard extends Board {
 	}
 	
 	public boolean set(int xOrO, int row, int col) {
-		Move move = new Move(xOrO, row, col);
+		Move move = new Move(row, col,xOrO);
 		if(super.set(move)){
 			rbX.updateRanking(move);
 			rbO.updateRanking(move);
@@ -108,13 +108,6 @@ public class RankedBoard extends Board {
 		return playersRanking.rb[move.getRow()][move.getCol()];
 	}
 	
-	public RankedBoard copy(){
-        RankedBoard rb=new RankedBoard(getSide());
-        rb.board=board.clone();
-        rb.rbO=rbO; //Wrong, fix later
-        rb.rbX=rbX; //Wrong, fix later
-        return rb;
-    }
 
 	/**
 	 * Selects good moves for player XorO

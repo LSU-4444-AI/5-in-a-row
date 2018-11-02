@@ -56,4 +56,9 @@ public class PreProcBot extends NeuralBot{
 		return input;
 	}
 
+	public static void main(String[] args){
+		Board b=new Board(11);
+		PreProcBot bot= new PreProcBot(b,1);
+		bot.practice();
+	}
 }

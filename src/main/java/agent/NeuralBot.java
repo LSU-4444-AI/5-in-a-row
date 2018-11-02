@@ -169,12 +169,15 @@ public abstract class NeuralBot implements Player {
 	 * 
 	 */
 	public void practice(){
+		print("Training started");
 		boolean starting=false;
 		for( int i=0; i<10000;i++){
+			print("-------------------New Game---------------------");
 			DataSet newRankings=playPracticeGame(starting);
 			train(newRankings);
 			starting=!starting;
 		}
+		save();
 	}
 	
 	private DataSet generateData(ArrayList<Choice> choices, boolean win) {
@@ -199,16 +202,24 @@ public abstract class NeuralBot implements Player {
 		ArrayList<Choice> choices= new ArrayList<>();
 		boolean win=false;
 		while (true) {
+			rb.printBoard();
 			if(playersTurn){
 				choices.add(nextMoveForTraining(rb));
+				if(choices.get(choices.size()-1).win){
+					win=true;
+					print("win");
+					break;
+				} 
 			} else {
 				choices.add(opponentsNextMove(rb));
+				if(choices.get(choices.size()-1).win){
+					win=true;
+					print("lose");
+					break;
+				} 
 			}
-			if(choices.get(choices.size()-1).win){
-				win=true;
-				break;
-			} 
 			if(rb.tie()){
+				print("tie");
 				break;
 			}
 			playersTurn=!playersTurn;
@@ -220,6 +231,7 @@ public abstract class NeuralBot implements Player {
 		ArrayList<Move> bestMoves = rb.bestMovesFor(-xOrO);
 		Move move = bestMoves.get(r.nextInt(bestMoves.size()));
 		int side = rb.getSide();
+		Board copy=rb.copy();
 		double pLoss = 1;
 		double pTieLoss = 1;
 		INDArray output=null;
@@ -227,8 +239,8 @@ public abstract class NeuralBot implements Player {
 		for (int row = 0; row < side; row++) {
 			for (int col = 0; col < side; col++) {
 				if (rb.get(row, col) == 0) {
-					rb.set(this.xOrO, row, col);
-					INDArray in=state(rb, xOrO);
+					copy.set(-this.xOrO, row, col);
+					INDArray in=state(copy, -xOrO);
 					INDArray out = nnet.output(in);
 					pLoss *= out.getDouble(2);
 					pTieLoss *= 1-out.getDouble(0);
@@ -236,19 +248,20 @@ public abstract class NeuralBot implements Player {
 						output=out;
 						input=in;
 					}
-					rb.undo();
+					copy.undo();
 				}
 			}
 		}
 		boolean win=rb.winningMove(move);
 		rb.set(move);
+		rb.printRankings();
 		return new Choice(input, output, pTieLoss, pLoss,win);
 	}
 
 	private Choice nextMoveForTraining(RankedBoard rb) {
 		ArrayList<Move> bestMoves = new ArrayList<>();
 		int side = rb.getSide();
-		Board temp = rb.copy();
+		Board copy=rb.copy();
 		double pLoss = 1;
 		double pTieLoss = 1;
 		ArrayList<INDArray> outputs = new ArrayList<>();
@@ -256,7 +269,7 @@ public abstract class NeuralBot implements Player {
 		for (int row = 0; row < side; row++) {
 			for (int col = 0; col < side; col++) {
 				if (rb.get(row, col) == 0) {
-					temp.set(this.xOrO, row, col);
+					copy.set(this.xOrO, row, col);
 					/*
 					if(temp.win()==xOrO){
 						ArrayList<Move> winningMove = new ArrayList<Move>();
@@ -264,13 +277,13 @@ public abstract class NeuralBot implements Player {
 						return winningMove;
 					}
 					*/
-					INDArray in=state(temp, xOrO);
+					INDArray in=state(copy, xOrO);
 					INDArray out = nnet.output(in);
 					pLoss *= out.getDouble(2);
 					pTieLoss *= 1-out.getDouble(0);
 					outputs.add(out);
 					inputs.add(in);
-					temp.undo();
+					copy.undo();
 				}
 			}
 		}
@@ -281,7 +294,6 @@ public abstract class NeuralBot implements Player {
 			for (int col = 0; col < side; col++) {
 				if (rb.get(row, col) == 0) {
 					double ranking = optimality(outputs.get(i).getDouble(0), outputs.get(i).getDouble(1), pTieLoss, pLoss);
-					print(ranking);
 					if (max < ranking) {
 						max = ranking;
 						bestMoves = new ArrayList<>();
@@ -337,4 +349,5 @@ public abstract class NeuralBot implements Player {
 	private void print(Object o){
 		System.out.println(o);
 	}
+	
 }
