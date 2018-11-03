@@ -2,13 +2,11 @@ package agent;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.function.Function;
 import java.io.File;
 import java.io.IOException;
 
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
-import org.deeplearning4j.nn.conf.Updater;
 import org.deeplearning4j.nn.conf.layers.DenseLayer;
 import org.deeplearning4j.nn.conf.layers.OutputLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
@@ -32,7 +30,8 @@ public abstract class NeuralBot implements Player {
     MultiLayerNetwork nnet;
     File saveLocation;
     final int epochs=5;
-    final int nbrOfPracticeGames=100;
+    final int nbrOfPracticeGames=10;
+    boolean printRankings=true;
     
     
     public NeuralBot(Board board, int xOrO, String filepath){
@@ -199,7 +198,9 @@ public abstract class NeuralBot implements Player {
 		pWin=nextOut.getDouble(0);
 		pTie=nextOut.getDouble(1);
 		optimality=pWin + (pTie*last.pTieLoss/(1-last.output.getDouble(0))) + (1-pWin-pTie)*last.pLoss/(last.output.getDouble(2));
-		//print("New Outputs");
+		if(printRankings){
+			print("New Outputs");
+		}
 		for(int i=choices.size()-1;i>=0;i--){
 			Choice c=choices.get(i);
 			INDArray out=c.output;
@@ -214,7 +215,9 @@ public abstract class NeuralBot implements Player {
 				input.putRow(i,in);
 				output.putRow(i,out);
 			}
-			//print(out);
+			if(printRankings){
+				print(out);
+			}
 			//Reversing the probability vector for opposite player
 			nextOut=Nd4j.zeros(3);
 			nextOut.putScalar(0, out.getDouble(2));
@@ -243,7 +246,9 @@ public abstract class NeuralBot implements Player {
 			//rb.printBoard();
 			if(playersTurn){
 				choices.add(nextMoveForTraining(rb));
-				//print(choices.get(choices.size()-1).output);
+				if(printRankings){
+					print(choices.get(choices.size()-1).output);
+				}
 				if(choices.get(choices.size()-1).win){
 					win=true;
 					print("Win. Length: "+count);
