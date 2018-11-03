@@ -31,7 +31,8 @@ public abstract class NeuralBot implements Player {
     Random r;
     MultiLayerNetwork nnet;
     File saveLocation;
-    final int epochs=10;
+    final int epochs=5;
+    final int nbrOfPracticeGames=100;
     
     
     public NeuralBot(Board board, int xOrO, String filepath){
@@ -40,7 +41,7 @@ public abstract class NeuralBot implements Player {
     	r=new Random();
     	int inputSize = 2 * board.getSide() * board.getSide();
     	final int outputSize = 3;
-    	final int hiddenNodes = 1024;
+    	final int hiddenNodes = 128;
     	
     	this.saveLocation = new File(filepath);
     	if(saveLocation.exists()){
@@ -54,11 +55,11 @@ public abstract class NeuralBot implements Player {
     	else {
     		MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
         		.weightInit(WeightInit.XAVIER)
-        		.updater(new Nesterovs(0.1, 0.9))
+        		.updater(new Nesterovs(0.1, 0.5))
         		.list()
         		.layer(0, new DenseLayer.Builder().nIn(inputSize).nOut(hiddenNodes).activation(Activation.RELU).build())
-        		.layer(1, new DenseLayer.Builder().nIn(hiddenNodes).nOut(hiddenNodes).activation(Activation.RELU).build())
-        		.layer(2, new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD).activation(Activation.SOFTMAX).nIn(hiddenNodes).nOut(outputSize).build())
+        		.layer(1, new DenseLayer.Builder().nIn(hiddenNodes).nOut(hiddenNodes/2).activation(Activation.RELU).build())
+        		.layer(2, new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD).activation(Activation.SOFTMAX).nIn(hiddenNodes/2).nOut(outputSize).build())
         		.backprop(true).pretrain(false).build();
     	
     		nnet = new MultiLayerNetwork(conf);
@@ -172,8 +173,8 @@ public abstract class NeuralBot implements Player {
 	public void practice(){
 		print("Training started");
 		boolean starting=false;
-		for( int i=0; i<10000;i++){
-			print("-------------------New Game---------------------");
+		for( int i=0; i<nbrOfPracticeGames;i++){
+			print("Game: "+i);
 			DataSet newRankings=playPracticeGame(starting);
 			train(newRankings);
 			starting=!starting;
@@ -182,33 +183,44 @@ public abstract class NeuralBot implements Player {
 	}
 	
 	private DataSet generateData(ArrayList<Choice> choices, boolean win) {
-		INDArray input=Nd4j.zeros(choices.size(),2 * board.getSide() * board.getSide());
-		INDArray output=Nd4j.zeros(choices.size(),3);
+		INDArray input= Nd4j.zeros(choices.size(),2*board.getSide()*board.getSide()); //Nd4j.zeros(choices.size(),2 * board.getSide() * board.getSide());
+		INDArray output=Nd4j.zeros(choices.size(),3); //Nd4j.zeros(choices.size(),3);
 		double pWin;
 		double pTie;
+		double optimality;
 		INDArray nextOut=Nd4j.zeros(3);
 		if(win){
-			pWin=1;
-			pTie=0;
 			nextOut.putScalar(0,1);
 		} else {
-			pWin=0;
-			pTie=1;
 			nextOut.putScalar(1,1);
 		}
-		for(int i=choices.size()-1;i>=1;i--){
+		Choice last=choices.get(choices.size()-1);
+		
+		pWin=nextOut.getDouble(0);
+		pTie=nextOut.getDouble(1);
+		optimality=pWin + (pTie*last.pTieLoss/(1-last.output.getDouble(0))) + (1-pWin-pTie)*last.pLoss/(last.output.getDouble(2));
+		//print("New Outputs");
+		for(int i=choices.size()-1;i>=0;i--){
 			Choice c=choices.get(i);
-			ArrayList<INDArray> in=rotations(c.input);
 			INDArray out=c.output;
-			double optimality=pWin + (pTie*c.pTieLoss/(1-out.getDouble(0))) + (1-pWin-pTie)*c.pLoss/out.getDouble(2);
+			pWin=nextOut.getDouble(0);
+			pTie=nextOut.getDouble(1);
+			double pWinOld=out.getDouble(0);
+			double pLooseOld=out.getDouble(2);
 			out.muli(1-optimality);
 			nextOut.muli(optimality);
-			out.add(nextOut);
+			out.addi(nextOut);
+			for(INDArray in:rotations(c.input)){
+				input.putRow(i,in);
+				output.putRow(i,out);
+			}
+			//print(out);
 			//Reversing the probability vector for opposite player
 			nextOut=Nd4j.zeros(3);
 			nextOut.putScalar(0, out.getDouble(2));
 			nextOut.putScalar(1, out.getDouble(1));
 			nextOut.putScalar(2, out.getDouble(0));
+			optimality=pWin + (pTie*c.pTieLoss/(1-pWinOld)) + (1-pWin-pTie)*c.pLoss/pLooseOld;
 		}
 		
 		
@@ -226,28 +238,31 @@ public abstract class NeuralBot implements Player {
 		RankedBoard rb= new RankedBoard(board.getSide());
 		ArrayList<Choice> choices= new ArrayList<>();
 		boolean win=false;
+		int count=1;
 		while (true) {
 			//rb.printBoard();
 			if(playersTurn){
 				choices.add(nextMoveForTraining(rb));
+				//print(choices.get(choices.size()-1).output);
 				if(choices.get(choices.size()-1).win){
 					win=true;
-					print("win");
+					print("Win. Length: "+count);
 					break;
 				} 
 			} else {
 				choices.add(opponentsNextMove(rb));
 				if(choices.get(choices.size()-1).win){
 					win=true;
-					print("lose");
+					print("Lose. Length: "+count);
 					break;
 				} 
 			}
 			if(rb.tie()){
-				print("tie");
+				print("Tie. Length: "+count);
 				break;
 			}
 			playersTurn=!playersTurn;
+			count++;
 		}
 		return generateData(choices, win);
 	}
