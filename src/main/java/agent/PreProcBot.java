@@ -3,7 +3,9 @@ package agent;
 import java.util.ArrayList;
 
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.api.ops.impl.transforms.Log;
 import org.nd4j.linalg.factory.Nd4j;
+import org.nd4j.linalg.ops.transforms.Transforms;
 
 import state.Board;
 import state.RankedBoard;
@@ -52,6 +54,10 @@ public class PreProcBot extends NeuralBot{
 				i++;
 			}
 		}
+
+//		input.addi(0.2);
+//		input=Transforms.log(input,2);	
+//		input.muli(0.1);
 		input.muli(1/100000.0);
 		return input;
 	}
@@ -59,6 +65,7 @@ public class PreProcBot extends NeuralBot{
 	public static void main(String[] args){
 		Board b=new Board(11);
 		PreProcBot bot= new PreProcBot(b,1);
+		System.out.println("Training PreProcBot");
 		bot.practice();
 	}
 }

@@ -30,8 +30,9 @@ public abstract class NeuralBot implements Player {
     MultiLayerNetwork nnet;
     File saveLocation;
     final int epochs=5;
-    final int nbrOfPracticeGames=10;
-    boolean printRankings=true;
+    final int nbrOfPracticeGames=5000;
+    boolean printRankings=false;
+    boolean printBoard=false;
     
     
     public NeuralBot(Board board, int xOrO, String filepath){
@@ -54,7 +55,7 @@ public abstract class NeuralBot implements Player {
     	else {
     		MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
         		.weightInit(WeightInit.XAVIER)
-        		.updater(new Nesterovs(0.1, 0.5))
+        		.updater(new Nesterovs(0.05, 0.5))
         		.list()
         		.layer(0, new DenseLayer.Builder().nIn(inputSize).nOut(hiddenNodes).activation(Activation.RELU).build())
         		.layer(1, new DenseLayer.Builder().nIn(hiddenNodes).nOut(hiddenNodes/2).activation(Activation.RELU).build())
@@ -141,7 +142,7 @@ public abstract class NeuralBot implements Player {
 			}
 		}
 		
-		double max = -1;
+		double max = -Double.MAX_VALUE;
 		INDArray chosenOutput=null;
 		int i = 0;
 		for (int row = 0; row < side; row++) {
@@ -243,7 +244,8 @@ public abstract class NeuralBot implements Player {
 		boolean win=false;
 		int count=1;
 		while (true) {
-			//rb.printBoard();
+			if(printBoard)
+				rb.printBoard();
 			if(playersTurn){
 				choices.add(nextMoveForTraining(rb));
 				if(printRankings){
@@ -256,6 +258,9 @@ public abstract class NeuralBot implements Player {
 				} 
 			} else {
 				choices.add(opponentsNextMove(rb));
+				if(printRankings){
+					print(choices.get(choices.size()-1).output);
+				}
 				if(choices.get(choices.size()-1).win){
 					win=true;
 					print("Lose. Length: "+count);
