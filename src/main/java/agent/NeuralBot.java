@@ -31,11 +31,12 @@ public abstract class NeuralBot implements Player {
     File saveLocation;
     final int epochs=5;
     final int nbrOfPracticeGames=5000;
+    final double learningRate=0.1;
     boolean printRankings=false;
     boolean printBoard=false;
     
     
-    public NeuralBot(Board board, int xOrO, String filepath){
+    public NeuralBot(Board board, int xOrO, String filepath, boolean twoHiddenLayers){
     	this.board=board;
     	this.xOrO=xOrO;
     	r=new Random();
@@ -51,11 +52,13 @@ public abstract class NeuralBot implements Player {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+    		nnet.setLearningRate(learningRate);
     	}
     	else {
+    		if(twoHiddenLayers){
     		MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
         		.weightInit(WeightInit.XAVIER)
-        		.updater(new Nesterovs(0.05, 0.5))
+        		.updater(new Nesterovs(learningRate, 0.5))
         		.list()
         		.layer(0, new DenseLayer.Builder().nIn(inputSize).nOut(hiddenNodes).activation(Activation.RELU).build())
         		.layer(1, new DenseLayer.Builder().nIn(hiddenNodes).nOut(hiddenNodes/2).activation(Activation.RELU).build())
@@ -64,6 +67,18 @@ public abstract class NeuralBot implements Player {
     	
     		nnet = new MultiLayerNetwork(conf);
     		nnet.init();
+    		} else {
+    			MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
+    	        		.weightInit(WeightInit.XAVIER)
+    	        		.updater(new Nesterovs(learningRate, 0.5))
+    	        		.list()
+    	        		.layer(0, new DenseLayer.Builder().nIn(inputSize).nOut(hiddenNodes).activation(Activation.RELU).build())
+    	        		.layer(1, new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD).activation(Activation.SOFTMAX).nIn(hiddenNodes).nOut(outputSize).build())
+    	        		.backprop(true).pretrain(false).build();
+    	    	
+    	    		nnet = new MultiLayerNetwork(conf);
+    	    		nnet.init();
+    		}
     	}
     	
     }
