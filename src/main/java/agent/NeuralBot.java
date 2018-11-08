@@ -29,11 +29,11 @@ public abstract class NeuralBot implements Player {
     Random r;
     MultiLayerNetwork nnet;
     File saveLocation;
-    final int epochs=5;
-    final int nbrOfPracticeGames=5000;
-    final double learningRate=0.1;
-    boolean printRankings=false;
-    boolean printBoard=false;
+    final int epochs=10;
+    final int nbrOfPracticeGames=10;
+    final double learningRate=0.05;
+    boolean printRankings=true;
+    boolean printBoard=true;
     
     
     public NeuralBot(Board board, int xOrO, String filepath, boolean twoHiddenLayers){
@@ -213,7 +213,7 @@ public abstract class NeuralBot implements Player {
 		
 		pWin=nextOut.getDouble(0);
 		pTie=nextOut.getDouble(1);
-		optimality=pWin + (pTie*last.pTieLoss/(1-last.output.getDouble(0))) + (1-pWin-pTie)*last.pLoss/(last.output.getDouble(2));
+		optimality=1;
 		if(printRankings){
 			print("New Outputs");
 		}
@@ -319,6 +319,7 @@ public abstract class NeuralBot implements Player {
 		}
 		boolean win=rb.winningMove(move);
 		rb.set(move);
+		//print(input.reshape(2*11,11));
 		return new Choice(input, output, pTieLoss, pLoss,win);
 	}
 
@@ -354,6 +355,9 @@ public abstract class NeuralBot implements Player {
 		
 		double max = -1;
 		int i = 0;
+		ArrayList<INDArray> bestOutputs = new ArrayList<>();
+		ArrayList<INDArray> bestInputs = new ArrayList<>();
+		
 		for (int row = 0; row < side; row++) {
 			for (int col = 0; col < side; col++) {
 				if (rb.get(row, col) == 0) {
@@ -361,9 +365,15 @@ public abstract class NeuralBot implements Player {
 					if (max < ranking) {
 						max = ranking;
 						bestMoves = new ArrayList<>();
+						bestInputs=new ArrayList<>();
+						bestOutputs=new ArrayList<>();
 						bestMoves.add(new Move(row, col, xOrO));
+						bestInputs.add(inputs.get(i));
+						bestOutputs.add(outputs.get(i));
 					} else if (max == ranking) {
 						bestMoves.add(new Move(row, col, xOrO));
+						bestInputs.add(inputs.get(i));
+						bestOutputs.add(outputs.get(i));
 					}
 					i++;
 				}
@@ -372,7 +382,7 @@ public abstract class NeuralBot implements Player {
 		int n=r.nextInt(bestMoves.size());
 		boolean win = rb.winningMove(bestMoves.get(n));
 		rb.set(bestMoves.get(n));
-		return new Choice(inputs.get(n), outputs.get(n), pTieLoss, pLoss,win);
+		return new Choice(bestInputs.get(n), bestOutputs.get(n), pTieLoss, pLoss,win);
 	}
 
 	/**Trains the neural network based on a data set.
