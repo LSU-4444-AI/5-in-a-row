@@ -17,7 +17,7 @@ public class ZeroBot extends NeuralBot{
 
 	public ZeroBot(Board board, int xOrO) {
 		//Look up good starting values for the numbers in the constructor
-		super(board, xOrO, "Zero.zip", true);
+		super(board, xOrO, "Zero.zip", true, 256);
 	}
 
 	@Override
