@@ -36,13 +36,12 @@ public abstract class NeuralBot implements Player {
     boolean printBoard=true;
     
     
-    public NeuralBot(Board board, int xOrO, String filepath, boolean twoHiddenLayers){
+    public NeuralBot(Board board, int xOrO, String filepath, boolean twoHiddenLayers, int hiddenNodes){
     	this.board=board;
     	this.xOrO=xOrO;
     	r=new Random();
     	int inputSize = 2 * board.getSide() * board.getSide();
     	final int outputSize = 3;
-    	final int hiddenNodes = 128;
     	
     	this.saveLocation = new File(filepath);
     	if(saveLocation.exists()){
@@ -99,12 +98,22 @@ public abstract class NeuralBot implements Player {
      * 
      */
     private void save(){
-    	try {
-			ModelSerializer.writeModel(nnet, saveLocation, true);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	save(this.saveLocation);
+    }
+    
+    /**Saves network to file
+     * 
+     * 
+     */
+    private void save(File location){
+    	if(location.exists()){
+    		try {
+    			ModelSerializer.writeModel(nnet, location, true);
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	}
     }
     
     /**Creates input vector for the neural network 

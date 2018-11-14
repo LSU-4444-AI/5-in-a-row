@@ -20,7 +20,7 @@ public class PreProcBot extends NeuralBot{
 	public PreProcBot(Board board, int xOrO) {
 		//Look up good starting values for the numbers in the constructor
 		
-		super(board, xOrO, "PreProc.zip", false);
+		super(board, xOrO, "PreProc.zip", false, 128);
 	}
 
 	@Override
