@@ -1,6 +1,6 @@
 import agent.Player;
 import agent.PreProcBot;
-import agent.QuickBot;
+import agent.HeuristicBot;
 import agent.ZeroBot;
 import state.Board;
 
@@ -10,8 +10,8 @@ public class FiveInARow {
 	public static void main(String[] args) {
 		Board board = new Board(11);
 		ArrayList<Player> players = new ArrayList<>();
-		players.add(new QuickBot(board, -1));
-		players.add(new PreProcBot(board, 1));
+		players.add(new HeuristicBot(board, -1));
+		players.add(new ZeroBot(board, 1));
 		while (true) {
 			for (Player p : players) {
 				board.printBoard();

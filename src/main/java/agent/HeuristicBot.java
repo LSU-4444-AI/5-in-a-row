@@ -6,12 +6,12 @@ import state.Move;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class QuickBot implements Player {
+public class HeuristicBot implements Player {
 	Board board;
     int xOrO;
     Random r;
     
-    public QuickBot(Board board, int xOrO){
+    public HeuristicBot(Board board, int xOrO){
     	this.board=board;
     	this.xOrO=xOrO;
     	r=new Random();

@@ -32,8 +32,8 @@ public abstract class NeuralBot implements Player {
     final int epochs=10;
     final int nbrOfPracticeGames=10;
     final double learningRate=0.05;
-    boolean printRankings=true;
-    boolean printBoard=true;
+    boolean printRankings=false;
+    boolean printBoard=false;
     
     
     public NeuralBot(Board board, int xOrO, String filepath, boolean twoHiddenLayers, int hiddenNodes){
@@ -173,7 +173,7 @@ public abstract class NeuralBot implements Player {
 			for (int col = 0; col < side; col++) {
 				if (board.get(row, col) == 0) {
 					double ranking = optimality(outputs.get(i).getDouble(0), outputs.get(i).getDouble(1), pTieLoss, pLoss);
-					print(ranking);
+					//print(ranking);
 					if (max < ranking) {
 						max = ranking;
 						bestMoves = new ArrayList<>();
@@ -195,7 +195,6 @@ public abstract class NeuralBot implements Player {
 	 * 
 	 */
 	public void practice(){
-		print("Training started");
 		boolean starting=false;
 		for( int i=0; i<nbrOfPracticeGames;i++){
 			print("Game: "+i);
