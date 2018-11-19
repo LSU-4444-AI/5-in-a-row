@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
@@ -264,6 +265,8 @@ public abstract class NeuralBot implements Player {
 	private DataSet playPracticeGame(boolean playersTurn) {
 		RankedBoard rb= new RankedBoard(board.getSide());
 		ArrayList<Choice> choices= new ArrayList<>();
+		PrintStream outFile = new PrintStream("./output.txt");
+		System.setOut(outFile);
 		boolean win=false;
 		int count=1;
 		while (true) {
