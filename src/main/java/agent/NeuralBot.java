@@ -3,6 +3,7 @@ package agent;
 import java.util.ArrayList;
 import java.util.Random;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 
@@ -43,6 +44,15 @@ public abstract class NeuralBot implements Player {
     	r=new Random();
     	int inputSize = 2 * board.getSide() * board.getSide();
     	final int outputSize = 3;
+    	
+		PrintStream outFile=null;
+		try {
+			outFile = new PrintStream("./output.txt");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.setOut(outFile);
     	
     	this.saveLocation = new File(filepath);
     	if(saveLocation.exists()){
@@ -265,8 +275,6 @@ public abstract class NeuralBot implements Player {
 	private DataSet playPracticeGame(boolean playersTurn) {
 		RankedBoard rb= new RankedBoard(board.getSide());
 		ArrayList<Choice> choices= new ArrayList<>();
-		PrintStream outFile = new PrintStream("./output.txt");
-		System.setOut(outFile);
 		boolean win=false;
 		int count=1;
 		while (true) {
