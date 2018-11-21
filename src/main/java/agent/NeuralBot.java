@@ -29,25 +29,42 @@ public abstract class NeuralBot implements Player {
     int xOrO;
     Random r;
     MultiLayerNetwork nnet;
-    File saveLocation;
+    String saveLocation;
+    String dataLocation;
+    String netType;
     final int epochs=10;
     final int nbrOfPracticeGames=10;
+    final int nbrOfRegimentGames=100000;
+    final int naiveGameCount=1000;
+    final int medGameCount=10000;
+    final int autosaveSpacing=1000;
     final double learningRate=0.05;
     boolean printRankings=false;
     boolean printBoard=false;
+    TrainingData data;
     
     
-    public NeuralBot(Board board, int xOrO, String filepath, boolean twoHiddenLayers, int hiddenNodes){
+    public NeuralBot(Board board, int xOrO, String netType, boolean twoHiddenLayers, int hiddenNodes){
     	this.board=board;
     	this.xOrO=xOrO;
     	r=new Random();
     	int inputSize = 2 * board.getSide() * board.getSide();
     	final int outputSize = 3;
     	
-    	this.saveLocation = new File(filepath);
-    	if(saveLocation.exists()){
+    	this.dataLocation = netType + ".data";
+    	this.saveLocation = netType + ".zip";
+    	this.netType = netType;
+    	
+    	this.data = new TrainingData();
+    	File dataFile = new File(dataFilepath);
+    	if(dataFile.exists()){
+    		data.load(dataFile);
+    	}
+    	
+    	File saveFile = new File(saveLocation);
+    	if(saveFile.exists()){
     		try {
-				nnet = ModelSerializer.restoreMultiLayerNetwork(this.saveLocation);
+				nnet = ModelSerializer.restoreMultiLayerNetwork(saveFile);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -99,7 +116,8 @@ public abstract class NeuralBot implements Player {
      * 
      */
     private void save(){
-    	save(this.saveLocation);
+    	File saveFile = new File(this.saveLocation);
+    	save(saveFile);
     }
     
     /**Saves network to file
@@ -107,13 +125,11 @@ public abstract class NeuralBot implements Player {
      * 
      */
     private void save(File location){
-    	if(location.exists()){
-    		try {
-    			ModelSerializer.writeModel(nnet, location, true);
-    		} catch (IOException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
+    	try {
+    		ModelSerializer.writeModel(nnet, location, true);
+    	} catch (IOException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
     	}
     }
     
@@ -414,6 +430,148 @@ public abstract class NeuralBot implements Player {
 	 */
 	private double newRanking(double oldRanking, double nextRanking, double optimality){
 		return optimality*nextRanking+(1-optimality)*oldRanking;
+	}
+	
+	public void practiceRegiment(){
+		boolean starting=false;
+		for( int i=data.gameNum + 1; i<=nbrOfRegimentGames;i++){
+			RegimentOutput out=playRegimentGame(starting);
+			train(out.ds);
+			starting=!starting;
+			if(i % autosaveSpacing == 0)
+				save();
+			switch(i){
+			case naiveGameCount:
+				String filepath = this.netType + "Naive.zip";
+				save(new File(filepath));
+				break;
+			case medGameCount:
+				String filepath = this.netType + "Medium.zip";
+				save(new File(filepath));
+				break;
+			}
+		}
+		String filepath = this.netType + "Fully.zip";
+		save(new File(filepath));
+	}
+	
+	private RegimentOutput playRegimentGame(boolean playersTurn) {
+		TrainingDataPoint dp = new TrainingDataPoint();
+		if(playersTurn)
+			dp.side = 1;
+		else
+			dp.side = -1;
+		
+		RankedBoard rb= new RankedBoard(board.getSide());
+		ArrayList<Choice> choices= new ArrayList<>();
+		PrintStream outFile = new PrintStream("./output.txt");
+		System.setOut(outFile);
+		boolean win=false;
+		int count=1;
+		
+		while (true) {
+			if(printBoard)
+				rb.printBoard();
+			if(playersTurn){
+				choices.add(nextMoveForTraining(rb));
+				if(printRankings){
+					print(choices.get(choices.size()-1).output);
+				}
+				if(choices.get(choices.size()-1).win){
+					win=true;
+					dp.length = count;
+					dp.win = 1;
+					break;
+				} 
+			} else {
+				choices.add(opponentsNextMove(rb));
+				if(printRankings){
+					print(choices.get(choices.size()-1).output);
+				}
+				if(choices.get(choices.size()-1).win){
+					win=true;
+					dp.length = count;
+					dp.win = -1;
+					break;
+				} 
+			}
+			if(rb.tie()){
+				dp.length = count;
+				dp.win = 0;
+				break;
+			}
+			playersTurn=!playersTurn;
+			count++;
+		}
+		return new RegimentOutput(generateData(choices, win), dp);
+	}
+	
+	private class RegimentOutput{
+		DataSet ds;
+		TrainingDataPoint dp;
+		
+		RegimentOutput(DataSet ds, TrainingDataPoint dp){
+			this.ds = ds;
+			this.dp = dp;
+		}
+	}
+	
+	private class TrainingDataPoint{
+		int win;
+		int side;
+		int length;
+		
+		TrainingDataPoint(){
+			this.win = 0;
+			this.side = 0;
+			this.length = 0;
+		}
+		
+		TrainingDataPoint(int win, int side, int length){
+			this.win = win;
+			this.side = side;
+			this.length = length;
+		}
+		
+		public void save(int gameNum, PrintStream outFile){
+			outFile.printf("%i %i %i %i\n", gameNum, win, side, length);
+		}
+	}
+	
+	private class TrainingData{
+		ArrayList<TrainingDataPoint> data;
+		int gameNum;
+		
+		TrainingData(){
+			this.data = new ArrayList<TrainingDataPoint>();
+			gameNum = 0;
+		}
+		
+		public int getNum(){
+			return gameNum;
+		}
+		
+		//Loads data
+		public void load(File savedData){
+			if(savedData.exists()){
+				BufferedReader br = new BufferedReader(new FileReader(savedData)); 
+				String st; 
+				while((st = br.readLine()) != null)
+					gameNum++;
+			}
+		}
+		
+		//Saves(appends) the training data into a file
+		public void save(String dataFilepath){
+			this.dataLocation = new File(dataFilepath);
+	    	PrintStream outFile = new PrintStream(dataLocation);
+	    	for(TrainingDataPoint d : data){
+	    		gameNum++;
+	    		d.save(gameNum, outFile);
+	    	}
+	    	data.clear();
+		}
+		
 	}
 	
 	private static class Choice{
