@@ -441,6 +441,10 @@ public abstract class NeuralBot implements Player {
 		return optimality*nextRanking+(1-optimality)*oldRanking;
 	}
 	
+	
+	/**	Trains the neural network and saves special models for the 1000, 10000, and 100000th iteration.
+	 *  Variation of the practice() routine.
+	 */
 	public void practiceRegiment(){
 		boolean starting=false;
 		for( int i=data.gameNum + 1; i<=nbrOfRegimentGames;i++){
@@ -464,6 +468,11 @@ public abstract class NeuralBot implements Player {
 		save(new File(filepath));
 	}
 	
+	/** Variation of playPracticeGame() which is used in the practiceRegiment() routine. 
+	 * 
+	 * @param playersTurn
+	 * @return
+	 */
 	private RegimentOutput playRegimentGame(boolean playersTurn) {
 		TrainingDataPoint dp = new TrainingDataPoint();
 		if(playersTurn)
@@ -473,8 +482,6 @@ public abstract class NeuralBot implements Player {
 		
 		RankedBoard rb= new RankedBoard(board.getSide());
 		ArrayList<Choice> choices= new ArrayList<>();
-		PrintStream outFile = new PrintStream("./output.txt");
-		System.setOut(outFile);
 		boolean win=false;
 		int count=1;
 		
@@ -515,6 +522,9 @@ public abstract class NeuralBot implements Player {
 		return new RegimentOutput(generateData(choices, win), dp);
 	}
 	
+	/** Structure to return values from playRegimentGame() without restructuring
+	 * 
+	 */
 	private class RegimentOutput{
 		DataSet ds;
 		TrainingDataPoint dp;
@@ -525,6 +535,10 @@ public abstract class NeuralBot implements Player {
 		}
 	}
 	
+	
+	/** Structure to contain a single game's data
+	 * 
+	 */
 	private class TrainingDataPoint{
 		int win;
 		int side;
@@ -547,6 +561,10 @@ public abstract class NeuralBot implements Player {
 		}
 	}
 	
+	
+	/** Structure to contain training data
+	 * 
+	 */
 	private class TrainingData{
 		ArrayList<TrainingDataPoint> data;
 		int gameNum;
