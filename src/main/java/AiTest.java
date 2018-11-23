@@ -12,14 +12,14 @@ import agent.Player;
 import state.Board;
 import state.Move;
 
-public class Aitest extends JPanel implements Player
+public class AiTest extends JPanel implements Player
 {
     int xOrO;
     JButton buttons[] = new JButton[121];
     Board board;
     Move move;
     
-    public Aitest(Board board, int xOrO)
+    public AiTest(Board board, int xOrO)
     {
       this.board = board;
       this.xOrO = xOrO;
@@ -192,7 +192,7 @@ public class Aitest extends JPanel implements Player
         JPanel panel = new JPanel( new GridLayout(3, 3) );
         window.add(panel, BorderLayout.CENTER);
 		Board b=new Board(11);
-        final Aitest ai = new Aitest(b, 1);
+        final AiTest ai = new AiTest(b, 1);
         window.getContentPane().add(ai);
         JLabel txt = new JLabel("Player 1:  X          Player 2:  O", JLabel.CENTER);
  

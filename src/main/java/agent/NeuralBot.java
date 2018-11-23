@@ -37,13 +37,13 @@ public abstract class NeuralBot implements Player {
     String netType;
     final int epochs=10;
     final int nbrOfPracticeGames=10;
-    final int nbrOfRegimentGames=100000;
+    final int nbrOfRegimentGames=10;
     final int naiveGameCount=1000;
     final int medGameCount=10000;
     final int autosaveSpacing=1000;
     final double learningRate=0.05;
-    boolean printRankings=false;
-    boolean printBoard=false;
+    boolean printRankings=true;
+    boolean printBoard=true;
     TrainingData data;
     
     
@@ -574,9 +574,9 @@ public abstract class NeuralBot implements Player {
 		public void load(File savedData) throws Exception{
 			if(savedData.exists()){
 				BufferedReader br = new BufferedReader(new FileReader(savedData)); 
-				String st; 
-				while((st = br.readLine()) != null)
+				while(br.readLine() != null)
 					gameNum++;
+				br.close();
 			}
 		}
 		
