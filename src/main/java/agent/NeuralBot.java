@@ -35,10 +35,10 @@ public abstract class NeuralBot implements Player {
     String netType;
     final int epochs=10;
     final int nbrOfPracticeGames=10;
-    final int nbrOfRegimentGames=100000;
-    final int naiveGameCount=1000;
-    final int medGameCount=10000;
-    final int autosaveSpacing=1000;
+    final int nbrOfRegimentGames=100000; 	//Total number of games to be played
+    final int naiveGameCount=1000;			//Number of games trained for the naive trained model
+    final int medGameCount=10000;			//Number of games trained for the medium trained model
+    final int autosaveSpacing=100;			//Number of games between each autosave
     final double learningRate=0.05;
     boolean printRankings=false;
     boolean printBoard=false;
@@ -129,6 +129,22 @@ public abstract class NeuralBot implements Player {
     private void save(){
     	File saveFile = new File(this.saveLocation);
     	save(saveFile);
+    }
+    
+    /**Saves data to file
+     * 
+     */
+    private void saveData(){
+    	File saveFile = new File(this.dataLocation);
+    	saveData(saveFile);
+    }
+    
+    /**Saves data to file
+     * 
+     * 
+     */
+    private void saveData(String location){
+    	this.data.save(location);
     }
     
     /**Saves network to file
@@ -450,9 +466,12 @@ public abstract class NeuralBot implements Player {
 		for( int i=data.gameNum + 1; i<=nbrOfRegimentGames;i++){
 			RegimentOutput out=playRegimentGame(starting);
 			train(out.ds);
+			data.add(out.dp);
 			starting=!starting;
-			if(i % autosaveSpacing == 0)
+			if(i % autosaveSpacing == 0){
 				save();
+				saveData();
+			}
 			switch(i){
 			case naiveGameCount:
 				String filepath = this.netType + "Naive.zip";
