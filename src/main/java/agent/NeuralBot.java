@@ -139,19 +139,12 @@ public abstract class NeuralBot implements Player {
     }
     
     /**Saves data to file
-     * 
-     */
-    private void saveData(){
-    	File saveFile = new File(this.dataLocation);
-    	saveData(saveFile);
-    }
-    
-    /**Saves data to file
+     * @throws FileNotFoundException 
      * 
      * 
      */
-    private void saveData(String location){
-    	this.data.save(location);
+    private void saveData() throws FileNotFoundException{
+    	this.data.save(this.dataLocation);
     }
     
     /**Saves network to file
