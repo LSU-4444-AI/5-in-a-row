@@ -2,8 +2,10 @@ package agent;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 
@@ -40,8 +42,8 @@ public abstract class NeuralBot implements Player {
     final int medGameCount=10000;			//Number of games trained for the medium trained model
     final int autosaveSpacing=100;			//Number of games between each autosave
     final double learningRate=0.05;
-    boolean printRankings=false;
-    boolean printBoard=false;
+    boolean printRankings=true;
+    boolean printBoard=true;
     TrainingData data;
     
     
@@ -67,9 +69,14 @@ public abstract class NeuralBot implements Player {
     	this.netType = netType;
     	
     	this.data = new TrainingData();
-    	File dataFile = new File(dataFilepath);
+    	File dataFile = new File(dataLocation);
     	if(dataFile.exists()){
-    		data.load(dataFile);
+    		try {
+				data.load(dataFile);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     	}
     	
     	File saveFile = new File(saveLocation);
@@ -260,9 +267,7 @@ public abstract class NeuralBot implements Player {
 			nextOut.putScalar(0,1);
 		} else {
 			nextOut.putScalar(1,1);
-		}
-		Choice last=choices.get(choices.size()-1);
-		
+		}		
 		pWin=nextOut.getDouble(0);
 		pTie=nextOut.getDouble(1);
 		optimality=1;
@@ -446,17 +451,6 @@ public abstract class NeuralBot implements Player {
 		}
 	}
 	
-	/** New values for the ranking of a state based on probability theory and stuff.
-	 * 
-	 * @param oldRanking, the ranking for the state used in the game
-	 * @param nextRanking, the new ranking of the following state
-	 * @param optimality, the probability that the move is optimal
-	 * @return
-	 */
-	private double newRanking(double oldRanking, double nextRanking, double optimality){
-		return optimality*nextRanking+(1-optimality)*oldRanking;
-	}
-	
 	
 	/**	Trains the neural network and saves special models for the 1000, 10000, and 100000th iteration.
 	 *  Variation of the practice() routine.
@@ -474,12 +468,10 @@ public abstract class NeuralBot implements Player {
 			}
 			switch(i){
 			case naiveGameCount:
-				String filepath = this.netType + "Naive.zip";
-				save(new File(filepath));
+				save(new File(this.netType + "Naive.zip"));
 				break;
 			case medGameCount:
-				String filepath = this.netType + "Medium.zip";
-				save(new File(filepath));
+				save(new File(this.netType + "Medium.zip"));
 				break;
 			}
 		}
@@ -598,18 +590,17 @@ public abstract class NeuralBot implements Player {
 		}
 		
 		//Loads data
-		public void load(File savedData){
+		public void load(File savedData) throws Exception{
 			if(savedData.exists()){
 				BufferedReader br = new BufferedReader(new FileReader(savedData)); 
-				String st; 
-				while((st = br.readLine()) != null)
+				while(br.readLine() != null)
 					gameNum++;
+				br.close();
 			}
 		}
 		
 		//Saves(appends) the training data into a file
-		public void save(String dataFilepath){
-			this.dataLocation = new File(dataFilepath);
+		public void save(String dataFilepath) throws FileNotFoundException{
 	    	PrintStream outFile = new PrintStream(dataLocation);
 	    	for(TrainingDataPoint d : data){
 	    		gameNum++;

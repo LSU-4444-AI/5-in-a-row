@@ -1,4 +1,3 @@
-package aitest;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -8,17 +7,19 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+
+import agent.Player;
 import state.Board;
 import state.Move;
 
-public class aitest extends JPanel implements Player
+public class AiTest extends JPanel implements Player
 {
     int xOrO;
     JButton buttons[] = new JButton[121];
     Board board;
     Move move;
     
-    public aitest(Board board, int xOrO)
+    public AiTest(Board board, int xOrO)
     {
       this.board = board;
       this.xOrO = xOrO;
@@ -32,8 +33,13 @@ public class aitest extends JPanel implements Player
 	public void nextMove(){
 		this.move = null;
 		update();
-		while(this.move == null)	//GUI's are event driven, so this is the best way to wait on the move without restructuring
-			Thread.sleep(500);
+		while(this.move == null)
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		update(this.move);
 		board.set(move);
 	}
@@ -186,7 +192,7 @@ public class aitest extends JPanel implements Player
         JPanel panel = new JPanel( new GridLayout(3, 3) );
         window.add(panel, BorderLayout.CENTER);
 		Board b=new Board(11);
-        aitest ai = new aitest(b, 1);
+        final AiTest ai = new AiTest(b, 1);
         window.getContentPane().add(ai);
         JLabel txt = new JLabel("Player 1:  X          Player 2:  O", JLabel.CENTER);
  
