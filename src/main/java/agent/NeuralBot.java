@@ -36,14 +36,14 @@ public abstract class NeuralBot implements Player {
     String dataLocation;
     String netType;
     final int epochs=10;
-    final int nbrOfPracticeGames=10;
-    final int nbrOfRegimentGames=100000; 	//Total number of games to be played
+    final int nbrOfPracticeGames=5000;
+    final int nbrOfRegimentGames=5000; 	//Total number of games to be played
     final int naiveGameCount=1000;			//Number of games trained for the naive trained model
     final int medGameCount=10000;			//Number of games trained for the medium trained model
     final int autosaveSpacing=100;			//Number of games between each autosave
     final double learningRate=0.05;
-    boolean printRankings=true;
-    boolean printBoard=true;
+    boolean printRankings=false;
+    boolean printBoard=false;
     TrainingData data;
     
     
@@ -296,11 +296,40 @@ public abstract class NeuralBot implements Player {
 		return new DataSet(input,output);
 	}
 
-	private ArrayList<INDArray> rotations(INDArray input) {
+	protected ArrayList<INDArray> rotations(INDArray input) {
 		ArrayList<INDArray> rotations=new ArrayList<>();
-		rotations.add(input);
-		//TODO
+		for(int i=0; i<4; i++){
+			rotations.add(input);
+			rotations.add(ref(input));
+			input=rot(input);
+		}
 		return rotations;
+	}
+	
+	
+
+	private INDArray rot(INDArray input) {
+		int side=board.getSide();
+		INDArray rotated= input.dup();
+		for(int row=0;row<side;row++){
+			for(int col=0;col<side;col++){
+				rotated.putScalar(row*side+side-1-col,input.getDouble(col*side+row));
+				rotated.putScalar(row*side+side-1-col+side*side,input.getDouble(col*side+row+side*side));
+			}
+		}
+		return rotated;
+	}
+
+	private INDArray ref(INDArray input) {
+		int side=board.getSide();
+		INDArray ref= input.dup();
+		for(int row=0;row<side;row++){
+			for(int col=0;col<side;col++){
+				ref.putScalar(row*side+col,input.getDouble(col*side+row));
+				ref.putScalar(row*side+col+side*side,input.getDouble(col*side+row+side*side));
+			}
+		}
+		return ref;
 	}
 
 	private DataSet playPracticeGame(boolean playersTurn) {
@@ -453,11 +482,11 @@ public abstract class NeuralBot implements Player {
 		for( int i=data.gameNum + 1; i<=nbrOfRegimentGames;i++){
 			RegimentOutput out=playRegimentGame(starting);
 			train(out.ds);
-			data.add(out.dp);
+			//data.add(out.dp);
 			starting=!starting;
 			if(i % autosaveSpacing == 0){
 				save();
-				saveData();
+				//saveData();
 			}
 			switch(i){
 			case naiveGameCount:
@@ -619,8 +648,25 @@ public abstract class NeuralBot implements Player {
 		}
 	}
 	
-	private void print(Object o){
+	private static void print(Object o){
 		System.out.println(o);
+	}
+	
+	public static void main(String[] args){
+		INDArray s=Nd4j.zeros(8);
+		s.putScalar(0,1);
+		s.putScalar(1,2);
+		s.putScalar(2,3);
+		s.putScalar(3,4);
+		s.putScalar(4,1);
+		s.putScalar(5,2);
+		s.putScalar(6,3);
+		s.putScalar(7,4);
+		ZeroBot bot=new ZeroBot(new Board(2),1);
+		for(INDArray state: bot.rotations(s)){
+			print(state.reshape(4,2));
+			print("");
+		}
 	}
 	
 }
