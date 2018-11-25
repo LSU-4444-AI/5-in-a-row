@@ -611,6 +611,10 @@ public abstract class NeuralBot implements Player {
 			return gameNum;
 		}
 		
+		public void add(TrainingDataPoint d){
+			this.data.add(d);
+		}
+		
 		//Loads data
 		public void load(File savedData) throws Exception{
 			if(savedData.exists()){
