@@ -626,6 +626,7 @@ public abstract class NeuralBot implements Player {
 	    		gameNum++;
 	    		d.save(gameNum, outFile);
 	    	}
+	    	outFile.close();
 	    	dat.clear();
 		}
 		

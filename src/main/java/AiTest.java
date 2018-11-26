@@ -116,7 +116,7 @@ public class AiTest extends JPanel implements Player
     {
         public void actionPerformed(ActionEvent e) 
         {
-            MatrixButton buttonClicked = (JButton)e.getSource(); //get the particular button that was clicked
+            MatrixButton buttonClicked = (MatrixButton)e.getSource(); //get the particular button that was clicked
             if (buttonClicked.getText().equals(""))
             {
                 if(this.xOrO == Board.CROSS){
