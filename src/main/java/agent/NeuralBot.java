@@ -480,9 +480,8 @@ public abstract class NeuralBot implements Player {
 	public void practiceRegiment(){
 		boolean starting=false;
 		for( int i=data.gameNum + 1; i<=nbrOfRegimentGames;i++){
-			RegimentOutput out=playRegimentGame(starting);
-			train(out.ds);
-			//data.add(out.dp);
+			DataSet out=playRegimentGame(starting);
+			train(out);
 			starting=!starting;
 			if(i % autosaveSpacing == 0){
 				save();
@@ -506,12 +505,14 @@ public abstract class NeuralBot implements Player {
 	 * @param playersTurn
 	 * @return
 	 */
-	private RegimentOutput playRegimentGame(boolean playersTurn) {
-		TrainingDataPoint dp = new TrainingDataPoint();
+	private DataSet playRegimentGame(boolean playersTurn) {
+		int side = 0;
+		int length = 0;
+		int wini = 0;
 		if(playersTurn)
-			dp.side = 1;
+			side = 1;
 		else
-			dp.side = -1;
+			side = -1;
 		
 		RankedBoard rb= new RankedBoard(board.getSide());
 		ArrayList<Choice> choices= new ArrayList<>();
@@ -528,8 +529,8 @@ public abstract class NeuralBot implements Player {
 				}
 				if(choices.get(choices.size()-1).win){
 					win=true;
-					dp.length = count;
-					dp.win = 1;
+					length = count;
+					wini = 1;
 					break;
 				} 
 			} else {
@@ -539,34 +540,27 @@ public abstract class NeuralBot implements Player {
 				}
 				if(choices.get(choices.size()-1).win){
 					win=true;
-					dp.length = count;
-					dp.win = -1;
+					length = count;
+					wini = -1;
 					break;
 				} 
 			}
 			if(rb.tie()){
-				dp.length = count;
-				dp.win = 0;
+				length = count;
+				wini = 0;
 				break;
 			}
 			playersTurn=!playersTurn;
 			count++;
 		}
-		return new RegimentOutput(generateData(choices, win), dp);
+		this.data.add(new TrainingDataPoint(wini, side, length));
+		return generateData(choices, win);
 	}
 	
 	/** Structure to return values from playRegimentGame() without restructuring
 	 * 
 	 */
-	private class RegimentOutput{
-		DataSet ds;
-		TrainingDataPoint dp;
-		
-		RegimentOutput(DataSet ds, TrainingDataPoint dp){
-			this.ds = ds;
-			this.dp = dp;
-		}
-	}
+	
 	
 	
 	/** Structure to contain a single game's data
@@ -599,11 +593,11 @@ public abstract class NeuralBot implements Player {
 	 * 
 	 */
 	private class TrainingData{
-		ArrayList<TrainingDataPoint> data;
+		ArrayList<TrainingDataPoint> dat;
 		int gameNum;
 		
 		TrainingData(){
-			this.data = new ArrayList<TrainingDataPoint>();
+			this.dat = new ArrayList<TrainingDataPoint>();
 			gameNum = 0;
 		}
 		
@@ -612,7 +606,7 @@ public abstract class NeuralBot implements Player {
 		}
 		
 		public void add(TrainingDataPoint d){
-			this.data.add(d);
+			this.dat.add(d);
 		}
 		
 		//Loads data
@@ -628,11 +622,11 @@ public abstract class NeuralBot implements Player {
 		//Saves(appends) the training data into a file
 		public void save(String dataFilepath) throws FileNotFoundException{
 	    	PrintStream outFile = new PrintStream(dataLocation);
-	    	for(TrainingDataPoint d : data){
+	    	for(TrainingDataPoint d : dat){
 	    		gameNum++;
 	    		d.save(gameNum, outFile);
 	    	}
-	    	data.clear();
+	    	dat.clear();
 		}
 		
 	}
