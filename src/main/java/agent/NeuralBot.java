@@ -41,7 +41,7 @@ public abstract class NeuralBot implements Player {
     final int naiveGameCount=1000;			//Number of games trained for the naive trained model
     final int medGameCount=10000;			//Number of games trained for the medium trained model
     final int autosaveSpacing=100;			//Number of games between each autosave
-    final double learningRate=0.05;
+    final double learningRate=0.1;
     boolean printRankings=false;
     boolean printBoard=false;
     TrainingData data;
@@ -341,7 +341,7 @@ public abstract class NeuralBot implements Player {
 			if(printBoard)
 				rb.printBoard();
 			if(playersTurn){
-				choices.add(nextMoveForTraining(rb));
+				choices.add(nextMoveForTraining(rb, xOrO));
 				if(printRankings){
 					print(choices.get(choices.size()-1).output);
 				}
@@ -351,7 +351,7 @@ public abstract class NeuralBot implements Player {
 					break;
 				} 
 			} else {
-				choices.add(opponentsNextMove(rb));
+				choices.add(heuristicNextMove(rb, -xOrO));
 				if(printRankings){
 					print(choices.get(choices.size()-1).output);
 				}
@@ -371,8 +371,8 @@ public abstract class NeuralBot implements Player {
 		return generateData(choices, win);
 	}
 
-	private Choice opponentsNextMove(RankedBoard rb) {
-		ArrayList<Move> bestMoves = rb.bestMovesFor(-xOrO);
+	private Choice heuristicNextMove(RankedBoard rb, int xOrO) {
+		ArrayList<Move> bestMoves = rb.bestMovesFor(xOrO);
 		Move move = bestMoves.get(r.nextInt(bestMoves.size()));
 		int side = rb.getSide();
 		Board copy=rb.copy();
@@ -384,7 +384,7 @@ public abstract class NeuralBot implements Player {
 			for (int col = 0; col < side; col++) {
 				if (rb.get(row, col) == 0) {
 					copy.set(-this.xOrO, row, col);
-					INDArray in=state(copy, -xOrO);
+					INDArray in=state(copy, xOrO);
 					INDArray out = nnet.output(in);
 					pLoss *= out.getDouble(2);
 					pTieLoss *= 1-out.getDouble(0);
@@ -402,7 +402,7 @@ public abstract class NeuralBot implements Player {
 		return new Choice(input, output, pTieLoss, pLoss,win);
 	}
 
-	private Choice nextMoveForTraining(RankedBoard rb) {
+	private Choice nextMoveForTraining(RankedBoard rb, int xOrO) {
 		ArrayList<Move> bestMoves = new ArrayList<>();
 		int side = rb.getSide();
 		Board copy=rb.copy();
@@ -523,7 +523,7 @@ public abstract class NeuralBot implements Player {
 			if(printBoard)
 				rb.printBoard();
 			if(playersTurn){
-				choices.add(nextMoveForTraining(rb));
+				choices.add(nextMoveForTraining(rb, xOrO));
 				if(printRankings){
 					print(choices.get(choices.size()-1).output);
 				}
@@ -534,7 +534,7 @@ public abstract class NeuralBot implements Player {
 					break;
 				} 
 			} else {
-				choices.add(opponentsNextMove(rb));
+				choices.add(heuristicNextMove(rb, -xOrO));
 				if(printRankings){
 					print(choices.get(choices.size()-1).output);
 				}
