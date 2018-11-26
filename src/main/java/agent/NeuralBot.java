@@ -36,12 +36,12 @@ public abstract class NeuralBot implements Player {
     String dataLocation;
     String netType;
     final int epochs=10;
-    final int nbrOfPracticeGames=5000;
+    final int nbrOfPracticeGames=10000;
     final int nbrOfRegimentGames=5000; 	//Total number of games to be played
     final int naiveGameCount=1000;			//Number of games trained for the naive trained model
     final int medGameCount=10000;			//Number of games trained for the medium trained model
     final int autosaveSpacing=100;			//Number of games between each autosave
-    final double learningRate=0.1;
+    final double learningRate=0.01;
     boolean printRankings=false;
     boolean printBoard=false;
     TrainingData data;
@@ -193,7 +193,7 @@ public abstract class NeuralBot implements Player {
 		for (int row = 0; row < side; row++) {
 			for (int col = 0; col < side; col++) {
 				if (board.get(row, col) == 0) {
-					temp.set(this.xOrO, row, col);
+					temp.set(xOrO, row, col);
 					/*
 					if(temp.win()==xOrO){
 						ArrayList<Move> winningMove = new ArrayList<Move>();
@@ -383,7 +383,7 @@ public abstract class NeuralBot implements Player {
 		for (int row = 0; row < side; row++) {
 			for (int col = 0; col < side; col++) {
 				if (rb.get(row, col) == 0) {
-					copy.set(-this.xOrO, row, col);
+					copy.set(xOrO, row, col);
 					INDArray in=state(copy, xOrO);
 					INDArray out = nnet.output(in);
 					pLoss *= out.getDouble(2);
@@ -413,7 +413,7 @@ public abstract class NeuralBot implements Player {
 		for (int row = 0; row < side; row++) {
 			for (int col = 0; col < side; col++) {
 				if (rb.get(row, col) == 0) {
-					copy.set(this.xOrO, row, col);
+					copy.set(xOrO, row, col);
 					/*
 					if(temp.win()==xOrO){
 						ArrayList<Move> winningMove = new ArrayList<Move>();
