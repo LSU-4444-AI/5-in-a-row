@@ -36,7 +36,7 @@ public abstract class NeuralBot implements Player {
     String dataLocation;
     String netType;
     final int epochs=10;
-    final int nbrOfPracticeGames=10000;
+    final int nbrOfPracticeGames=500;
     final int nbrOfRegimentGames=5000; 	//Total number of games to be played
     final int naiveGameCount=1000;			//Number of games trained for the naive trained model
     final int medGameCount=10000;			//Number of games trained for the medium trained model
@@ -45,6 +45,7 @@ public abstract class NeuralBot implements Player {
     boolean printRankings=false;
     boolean printBoard=false;
     TrainingData data;
+    PrintStream outFile;
     
     
     public NeuralBot(Board board, int xOrO, String netType, boolean twoHiddenLayers, int hiddenNodes){
@@ -54,15 +55,12 @@ public abstract class NeuralBot implements Player {
     	int inputSize = 2 * board.getSide() * board.getSide();
     	final int outputSize = 3;
     	
-		PrintStream outFile=null;
 		try {
 			outFile = new PrintStream("./output.txt");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.setOut(outFile);
-
 
 		this.dataLocation = netType + ".data";
     	this.saveLocation = netType + ".zip";
@@ -175,8 +173,9 @@ public abstract class NeuralBot implements Player {
      * @return
      */
     private double optimality(double pW, double pT, double pTieLoss, double pLoss) {
-    	//TODO Create actual evaluation metric
-    	return pW + (pT*pTieLoss/(1-pW)) + pLoss;
+    	if(pW<1)
+    		return pW + (pT*pTieLoss/(1-pW)) + pLoss;
+    	return 1;
     }
 
     /**List of the best moves
@@ -216,7 +215,7 @@ public abstract class NeuralBot implements Player {
 		for (int row = 0; row < side; row++) {
 			for (int col = 0; col < side; col++) {
 				if (board.get(row, col) == 0) {
-					double ranking = optimality(outputs.get(i).getDouble(0), outputs.get(i).getDouble(1), pTieLoss, pLoss);
+					double ranking = outputs.get(i).getDouble(0)-outputs.get(i).getDouble(2);
 					//print(ranking);
 					if (max < ranking) {
 						max = ranking;
@@ -250,8 +249,8 @@ public abstract class NeuralBot implements Player {
 	}
 	
 	private DataSet generateData(ArrayList<Choice> choices, boolean win) {
-		INDArray input= Nd4j.zeros(choices.size(),2*board.getSide()*board.getSide()); //Nd4j.zeros(choices.size(),2 * board.getSide() * board.getSide());
-		INDArray output=Nd4j.zeros(choices.size(),3); //Nd4j.zeros(choices.size(),3);
+		INDArray input= Nd4j.zeros(8*choices.size(),2*board.getSide()*board.getSide()); 
+		INDArray output=Nd4j.zeros(8*choices.size(),3);
 		double pWin;
 		double pTie;
 		double optimality;
@@ -267,6 +266,7 @@ public abstract class NeuralBot implements Player {
 		if(printRankings){
 			print("New Outputs");
 		}
+		int count=0;
 		for(int i=choices.size()-1;i>=0;i--){
 			Choice c=choices.get(i);
 			INDArray out=c.output;
@@ -278,8 +278,9 @@ public abstract class NeuralBot implements Player {
 			nextOut.muli(optimality);
 			out.addi(nextOut);
 			for(INDArray in:rotations(c.input)){
-				input.putRow(i,in);
-				output.putRow(i,out);
+				input.putRow(count,in);
+				output.putRow(count,out);
+				count++;
 			}
 			if(printRankings){
 				print(out);
@@ -289,7 +290,7 @@ public abstract class NeuralBot implements Player {
 			nextOut.putScalar(0, out.getDouble(2));
 			nextOut.putScalar(1, out.getDouble(1));
 			nextOut.putScalar(2, out.getDouble(0));
-			optimality=pWin + (pTie*c.pTieLoss/(1-pWinOld)) + (1-pWin-pTie)*c.pLoss/pLooseOld;
+			optimality = pWinOld==1||pLooseOld==0? 1:pWin + (pTie*c.pTieLoss/(1-pWinOld))+(1-pWin-pTie)*c.pLoss/pLooseOld;
 		}
 		
 		
@@ -343,6 +344,7 @@ public abstract class NeuralBot implements Player {
 			if(playersTurn){
 				choices.add(nextMoveForTraining(rb, xOrO));
 				if(printRankings){
+					print("Neural:");
 					print(choices.get(choices.size()-1).output);
 				}
 				if(choices.get(choices.size()-1).win){
@@ -353,6 +355,7 @@ public abstract class NeuralBot implements Player {
 			} else {
 				choices.add(heuristicNextMove(rb, -xOrO));
 				if(printRankings){
+					print("Heuristic");
 					print(choices.get(choices.size()-1).output);
 				}
 				if(choices.get(choices.size()-1).win){
@@ -432,7 +435,7 @@ public abstract class NeuralBot implements Player {
 			}
 		}
 		
-		double max = -1;
+		double max = -Double.MAX_VALUE;
 		int i = 0;
 		ArrayList<INDArray> bestOutputs = new ArrayList<>();
 		ArrayList<INDArray> bestInputs = new ArrayList<>();
@@ -440,7 +443,7 @@ public abstract class NeuralBot implements Player {
 		for (int row = 0; row < side; row++) {
 			for (int col = 0; col < side; col++) {
 				if (rb.get(row, col) == 0) {
-					double ranking = optimality(outputs.get(i).getDouble(0), outputs.get(i).getDouble(1), pTieLoss, pLoss);
+					double ranking = outputs.get(i).getDouble(0)-outputs.get(i).getDouble(2);
 					if (max < ranking) {
 						max = ranking;
 						bestMoves = new ArrayList<>();
@@ -647,8 +650,9 @@ public abstract class NeuralBot implements Player {
 		}
 	}
 	
-	private static void print(Object o){
+	protected void print(Object o){
 		System.out.println(o);
+		outFile.println(o);
 	}
 	
 	public static void main(String[] args){
@@ -663,8 +667,8 @@ public abstract class NeuralBot implements Player {
 		s.putScalar(7,4);
 		ZeroBot bot=new ZeroBot(new Board(2),1);
 		for(INDArray state: bot.rotations(s)){
-			print(state.reshape(4,2));
-			print("");
+			System.out.println(state.reshape(4,2));
+			System.out.println();
 		}
 	}
 	
