@@ -36,14 +36,14 @@ public abstract class NeuralBot implements Player {
     String dataLocation;
     String netType;
     final int epochs=10;
-    final int nbrOfPracticeGames=500;
+    final int nbrOfPracticeGames=10;
     final int nbrOfRegimentGames=5000; 	//Total number of games to be played
     final int naiveGameCount=1000;			//Number of games trained for the naive trained model
     final int medGameCount=10000;			//Number of games trained for the medium trained model
     final int autosaveSpacing=100;			//Number of games between each autosave
     final double learningRate=0.01;
-    boolean printRankings=false;
-    boolean printBoard=false;
+    boolean printRankings=true;
+    boolean printBoard=true;
     TrainingData data;
     PrintStream outFile;
     
@@ -338,6 +338,15 @@ public abstract class NeuralBot implements Player {
 		ArrayList<Choice> choices= new ArrayList<>();
 		boolean win=false;
 		int count=1;
+		if(playersTurn){
+			choices.add(heuristicNextMove(rb, xOrO));
+			if(printRankings){
+				print("Neural");
+				print(choices.get(choices.size()-1).output);
+			}
+			playersTurn=false;
+			count++;
+		}
 		while (true) {
 			if(printBoard)
 				rb.printBoard();
