@@ -15,7 +15,7 @@ public class PreProcBot extends NeuralBot{
 	public PreProcBot(Board board, int xOrO) {
 		//Look up good starting values for the numbers in the constructor
 		
-		super(board, xOrO, "PreProc", false, 128);
+		super(board, xOrO, "PreProc_20_000_games", false, 128);
 		
 	}
 
@@ -51,9 +51,6 @@ public class PreProcBot extends NeuralBot{
 			}
 		}
 
-//		input.addi(0.2);
-//		input=Transforms.log(input,2);	
-//		input.muli(0.1);
 		input.muli(1/100000.0);
 		return input;
 	}
