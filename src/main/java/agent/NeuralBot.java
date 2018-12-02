@@ -36,7 +36,7 @@ public abstract class NeuralBot implements Player {
     String dataLocation;
     String netType;
     final int epochs=10;
-    final int nbrOfPracticeGames=20000;
+    final int nbrOfPracticeGames=100000;
     final int nbrOfRegimentGames=5000; 	//Total number of games to be played
     final int naiveGameCount=1000;			//Number of games trained for the naive trained model
     final int medGameCount=10000;			//Number of games trained for the medium trained model

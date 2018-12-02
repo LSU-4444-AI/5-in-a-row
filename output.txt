@@ -1,352 +1,1367 @@
-Training ZeroBot
 Game: 0
-Heuristic
-[[    0.5809,    0.0008,    0.4184]]
-Neural:
-[[    0.5805,    0.0006,    0.4189]]
-Heuristic
-[[    0.4288,    0.0004,    0.5708]]
-Neural:
-[[    0.6590,    0.0003,    0.3407]]
-Heuristic
-[[    0.3219,    0.0002,    0.6779]]
-Neural:
-[[    0.6623,    0.0003,    0.3374]]
-Heuristic
-[[    0.3834,  5.531e-5,    0.6165]]
-Neural:
-[[    0.8624,    0.0002,    0.1374]]
-Heuristic
-[[    0.9673, 1.2204e-5,    0.0327]]
-Lose. Length: 9
-New Outputs
-[[    1.0000,         0,         0]]
-[[         0,         0,    1.0000]]
-[[    0.3834,  5.531e-5,    0.6165]]
-[[    0.6165,  5.531e-5,    0.3834]]
-[[    0.3599,    0.0001,    0.6400]]
-[[    0.6517,    0.0002,    0.3480]]
-[[    0.3771,    0.0003,    0.6226]]
-[[    0.5951,    0.0005,    0.4044]]
-[[    0.4710,    0.0006,    0.5284]]
+Lose. Length: 17
 Game: 1
-Neural
-[[    0.5591,    0.0013,    0.4396]]
-Heuristic
-[[    0.3154,    0.0006,    0.6840]]
-Neural:
-[[    0.5596,    0.0006,    0.4398]]
-Heuristic
-[[    0.3118,    0.0003,    0.6879]]
-Neural:
-[[    0.5164,    0.0003,    0.4833]]
-Heuristic
-[[    0.3468,    0.0002,    0.6530]]
-Neural:
-[[    0.4463,    0.0002,    0.5536]]
-Heuristic
-[[    0.3503, 9.7394e-5,    0.6496]]
-Neural:
-[[    0.3082, 9.0608e-5,    0.6917]]
-Heuristic
-[[    0.4811, 4.6048e-5,    0.5189]]
-Lose. Length: 10
-New Outputs
-[[    1.0000,         0,         0]]
-[[         0,         0,    1.0000]]
-[[    0.3503, 9.7394e-5,    0.6496]]
-[[    0.6496, 9.7394e-5,    0.3503]]
-[[    0.3491,    0.0001,    0.6508]]
-[[    0.5635,    0.0003,    0.4363]]
-[[    0.3928,    0.0003,    0.6069]]
-[[    0.5802,    0.0005,    0.4193]]
-[[    0.3784,    0.0005,    0.6210]]
-[[    0.5851,    0.0010,    0.4140]]
+Lose. Length: 28
 Game: 2
-Heuristic
-[[    0.5203,    0.0009,    0.4788]]
-Neural:
-[[    0.5266,    0.0004,    0.4730]]
-Heuristic
-[[    0.4004,    0.0005,    0.5991]]
-Neural:
-[[    0.4496,    0.0003,    0.5501]]
-Heuristic
-[[    0.4103,    0.0003,    0.5894]]
-Neural:
-[[    0.4510,    0.0002,    0.5488]]
-Heuristic
-[[    0.4754,    0.0001,    0.5244]]
-Neural:
-[[    0.4421, 7.0531e-5,    0.5579]]
-Heuristic
-[[    0.7580, 3.4883e-5,    0.2420]]
-Lose. Length: 9
-New Outputs
-[[    1.0000,         0,         0]]
-[[         0,         0,    1.0000]]
-[[    0.4754,    0.0001,    0.5244]]
-[[    0.5244,    0.0001,    0.4754]]
-[[    0.4445,    0.0002,    0.5553]]
-[[    0.4999,    0.0003,    0.4999]]
-[[    0.4556,    0.0004,    0.5440]]
-[[    0.5353,    0.0004,    0.4643]]
-[[    0.4898,    0.0006,    0.5096]]
+Lose. Length: 17
 Game: 3
-Neural
-[[    0.4624,    0.0009,    0.5367]]
-Heuristic
-[[    0.4765,    0.0007,    0.5228]]
-Neural:
-[[    0.6235,    0.0004,    0.3761]]
-Heuristic
-[[    0.4612,    0.0004,    0.5384]]
-Neural:
-[[    0.5614,    0.0002,    0.4384]]
-Heuristic
-[[    0.4403,    0.0002,    0.5595]]
-Neural:
-[[    0.5469, 9.4454e-5,    0.4530]]
-Heuristic
-[[    0.7493,    0.0002,    0.2505]]
-Neural:
-[[    0.7473, 1.4524e-5,    0.2526]]
-Heuristic
-[[    0.9465, 4.3038e-5,    0.0535]]
-Lose. Length: 10
-New Outputs
-[[    1.0000,         0,         0]]
-[[         0,         0,    1.0000]]
-[[    0.7493,    0.0002,    0.2505]]
-[[    0.2505,    0.0002,    0.7493]]
-[[    0.5177,    0.0002,    0.4821]]
-[[    0.5020,    0.0002,    0.4978]]
-[[    0.4788,    0.0003,    0.5208]]
-[[    0.5724,    0.0003,    0.4273]]
-[[    0.4509,    0.0005,    0.5486]]
-[[    0.4993,    0.0007,    0.5000]]
+Lose. Length: 22
 Game: 4
-Heuristic
-[[    0.4220,    0.0009,    0.5771]]
-Neural:
-[[    0.6156,    0.0008,    0.3836]]
-Heuristic
-[[    0.3458,    0.0003,    0.6538]]
-Neural:
-[[    0.5926,    0.0006,    0.4068]]
-Heuristic
-[[    0.2305,    0.0002,    0.7694]]
-Neural:
-[[    0.5997,    0.0005,    0.3998]]
-Heuristic
-[[    0.2154, 7.7253e-5,    0.7846]]
-Neural:
-[[    0.5967,    0.0003,    0.4029]]
-Heuristic
-[[    0.2117, 5.7513e-5,    0.7883]]
-Neural:
-[[    0.5674,    0.0001,    0.4325]]
-Heuristic
-[[    0.2726, 2.6814e-5,    0.7273]]
-Neural:
-[[    0.6754, 5.2779e-5,    0.3245]]
-Heuristic
-[[    0.4539, 1.6739e-5,    0.5461]]
-Neural:
-[[    0.9479, 1.0845e-5,    0.0521]]
-Heuristic
-[[    0.8711, 9.2899e-6,    0.1289]]
-Lose. Length: 15
-New Outputs
-[[    1.0000,         0,         0]]
-[[         0,         0,    1.0000]]
-[[    0.4539, 1.6739e-5,    0.5461]]
-[[    0.5461, 1.6739e-5,    0.4539]]
-[[    0.3716, 2.1313e-5,    0.6284]]
-[[    0.5951, 8.1408e-5,    0.4049]]
-[[    0.3331, 7.2527e-5,    0.6669]]
-[[    0.6251,    0.0002,    0.3746]]
-[[    0.3216,    0.0002,    0.6782]]
-[[    0.6291,    0.0004,    0.3705]]
-[[    0.3254,    0.0003,    0.6743]]
-[[    0.6228,    0.0005,    0.3766]]
-[[    0.3666,    0.0004,    0.6329]]
-[[    0.6221,    0.0007,    0.3772]]
-[[    0.3937,    0.0008,    0.6056]]
+Lose. Length: 17
 Game: 5
-Neural
-[[    0.5591,    0.0010,    0.4399]]
-Heuristic
-[[    0.4600,    0.0005,    0.5396]]
-Neural:
-[[    0.6701,    0.0005,    0.3294]]
-Heuristic
-[[    0.3078,    0.0002,    0.6920]]
-Neural:
-[[    0.7298,    0.0002,    0.2700]]
-Heuristic
-[[    0.2242,    0.0002,    0.7757]]
-Neural:
-[[    0.7406,    0.0001,    0.2593]]
-Heuristic
-[[    0.2379,  9.805e-5,    0.7620]]
-Neural:
-[[    0.8538, 3.2861e-5,    0.1462]]
-Heuristic
-[[    0.1812, 5.3278e-5,    0.8187]]
-Neural:
-[[    0.9197, 1.4165e-5,    0.0803]]
-Heuristic
-[[    0.3453, 1.9167e-5,    0.6547]]
-Lose. Length: 12
-New Outputs
-[[    1.0000,         0,         0]]
-[[         0,         0,    1.0000]]
-[[    0.1812, 5.3278e-5,    0.8187]]
-[[    0.8187, 5.3278e-5,    0.1812]]
-[[    0.1915, 6.1394e-5,    0.8084]]
-[[    0.7529,    0.0001,    0.2470]]
-[[    0.2426,    0.0001,    0.7572]]
-[[    0.7366,    0.0002,    0.2632]]
-[[    0.2741,    0.0002,    0.7257]]
-[[    0.6847,    0.0004,    0.3148]]
-[[    0.3546,    0.0004,    0.6449]]
-[[    0.5861,    0.0008,    0.4131]]
-Game: 6
-Heuristic
-[[    0.4944,    0.0008,    0.5047]]
-Neural:
-[[    0.5918,    0.0007,    0.4075]]
-Heuristic
-[[    0.4841,    0.0003,    0.5156]]
-Neural:
-[[    0.5523,    0.0004,    0.4473]]
-Heuristic
-[[    0.5210,    0.0001,    0.4789]]
-Neural:
-[[    0.4242,    0.0001,    0.5757]]
-Heuristic
-[[    0.5840, 6.7739e-5,    0.4160]]
-Neural:
-[[    0.3482,    0.0001,    0.6517]]
-Heuristic
-[[    0.9343, 1.4557e-5,    0.0657]]
-Lose. Length: 9
-New Outputs
-[[    1.0000,         0,         0]]
-[[         0,         0,    1.0000]]
-[[    0.5840, 6.7739e-5,    0.4160]]
-[[    0.4160, 6.7739e-5,    0.5840]]
-[[    0.5472,    0.0001,    0.4527]]
-[[    0.4941,    0.0002,    0.5056]]
-[[    0.4939,    0.0003,    0.5059]]
-[[    0.5483,    0.0005,    0.4512]]
-[[    0.4725,    0.0007,    0.5268]]
-Game: 7
-Neural
-[[    0.5529,    0.0007,    0.4463]]
-Heuristic
-[[    0.4769,    0.0009,    0.5222]]
-Neural:
-[[    0.5855,    0.0005,    0.4139]]
-Heuristic
-[[    0.4399,    0.0006,    0.5595]]
-Neural:
-[[    0.6140,    0.0001,    0.3859]]
-Heuristic
-[[    0.4246,    0.0003,    0.5751]]
-Neural:
-[[    0.6251,  8.244e-5,    0.3748]]
-Heuristic
-[[    0.4678,    0.0001,    0.5321]]
-Neural:
-[[    0.6146, 1.9466e-5,    0.3854]]
-Heuristic
-[[    0.6226, 5.3604e-5,    0.3774]]
 Lose. Length: 10
-New Outputs
-[[    1.0000,         0,         0]]
-[[         0,         0,    1.0000]]
-[[    0.4678,    0.0001,    0.5321]]
-[[    0.5321,    0.0001,    0.4678]]
-[[    0.4476,    0.0002,    0.5522]]
-[[    0.5851,    0.0002,    0.4147]]
-[[    0.4260,    0.0004,    0.5736]]
-[[    0.5806,    0.0005,    0.4190]]
-[[    0.4437,    0.0006,    0.5557]]
-[[    0.5541,    0.0007,    0.4452]]
+Game: 6
+Lose. Length: 15
+Game: 7
+Lose. Length: 20
 Game: 8
-Heuristic
-[[    0.5503,    0.0009,    0.4488]]
-Neural:
-[[    0.5456,    0.0004,    0.4539]]
-Heuristic
-[[    0.4463,    0.0005,    0.5533]]
-Neural:
-[[    0.4546,    0.0003,    0.5451]]
-Heuristic
-[[    0.4638,    0.0003,    0.5359]]
-Neural:
-[[    0.4402,    0.0003,    0.5596]]
-Heuristic
-[[    0.5965,    0.0001,    0.4034]]
-Neural:
-[[    0.4169,    0.0001,    0.5830]]
-Heuristic
-[[    0.9760, 1.8593e-5,    0.0240]]
-Lose. Length: 9
-New Outputs
-[[    1.0000,         0,         0]]
-[[         0,         0,    1.0000]]
-[[    0.5965,    0.0001,    0.4034]]
-[[    0.4034,    0.0001,    0.5965]]
-[[    0.5173,    0.0002,    0.4824]]
-[[    0.4712,    0.0003,    0.5285]]
-[[    0.4859,    0.0004,    0.5137]]
-[[    0.5287,    0.0004,    0.4709]]
-[[    0.5095,    0.0006,    0.4899]]
+Lose. Length: 15
 Game: 9
-Neural
-[[    0.5899,    0.0008,    0.4093]]
-Heuristic
-[[    0.4319,    0.0007,    0.5674]]
-Neural:
-[[    0.6302,    0.0005,    0.3693]]
-Heuristic
-[[    0.4323,    0.0002,    0.5675]]
-Neural:
-[[    0.6340,    0.0002,    0.3658]]
-Heuristic
-[[    0.4057,    0.0002,    0.5942]]
-Neural:
-[[    0.6388,    0.0001,    0.3611]]
-Heuristic
-[[    0.4786,    0.0001,    0.5213]]
-Neural:
-[[    0.6051, 9.4397e-5,    0.3948]]
-Heuristic
-[[    0.7401, 3.9555e-5,    0.2598]]
-Neural:
-[[    0.7741, 7.6531e-5,    0.2258]]
-Heuristic
-[[    0.9790, 7.8861e-6,    0.0210]]
-Neural:
-[[    0.9176, 2.2039e-5,    0.0824]]
-Heuristic
-[[    0.9999, 4.4312e-7,    0.0001]]
+Lose. Length: 26
+Game: 10
+Lose. Length: 27
+Game: 11
+Lose. Length: 10
+Game: 12
+Lose. Length: 19
+Game: 13
+Lose. Length: 20
+Game: 14
+Lose. Length: 21
+Game: 15
+Lose. Length: 22
+Game: 16
+Lose. Length: 17
+Game: 17
 Lose. Length: 14
-New Outputs
-[[    1.0000,         0,         0]]
-[[         0,         0,    1.0000]]
-[[    0.9790, 7.8861e-6,    0.0210]]
-[[    0.0210, 7.8861e-6,    0.9790]]
-[[    0.7452, 3.8889e-5,    0.2548]]
-[[    0.2622, 4.0056e-5,    0.7378]]
-[[    0.5446, 8.5554e-5,    0.4553]]
-[[    0.5034, 8.9571e-5,    0.4965]]
-[[    0.4470,    0.0001,    0.5528]]
-[[    0.5937,    0.0002,    0.4061]]
-[[    0.4178,    0.0002,    0.5820]]
-[[    0.6106,    0.0004,    0.3890]]
-[[    0.4069,    0.0005,    0.5926]]
-[[    0.5910,    0.0007,    0.4084]]
+Game: 18
+Lose. Length: 11
+Game: 19
+Lose. Length: 16
+Game: 20
+Lose. Length: 27
+Game: 21
+Lose. Length: 12
+Game: 22
+Lose. Length: 11
+Game: 23
+Lose. Length: 18
+Game: 24
+Lose. Length: 15
+Game: 25
+Lose. Length: 16
+Game: 26
+Lose. Length: 19
+Game: 27
+Lose. Length: 20
+Game: 28
+Lose. Length: 9
+Game: 29
+Lose. Length: 16
+Game: 30
+Lose. Length: 27
+Game: 31
+Lose. Length: 12
+Game: 32
+Lose. Length: 27
+Game: 33
+Lose. Length: 14
+Game: 34
+Lose. Length: 21
+Game: 35
+Lose. Length: 16
+Game: 36
+Lose. Length: 19
+Game: 37
+Lose. Length: 14
+Game: 38
+Lose. Length: 19
+Game: 39
+Lose. Length: 12
+Game: 40
+Lose. Length: 21
+Game: 41
+Lose. Length: 18
+Game: 42
+Lose. Length: 19
+Game: 43
+Lose. Length: 34
+Game: 44
+Lose. Length: 15
+Game: 45
+Lose. Length: 18
+Game: 46
+Lose. Length: 17
+Game: 47
+Lose. Length: 22
+Game: 48
+Lose. Length: 21
+Game: 49
+Lose. Length: 24
+Game: 50
+Lose. Length: 17
+Game: 51
+Lose. Length: 22
+Game: 52
+Lose. Length: 13
+Game: 53
+Lose. Length: 20
+Game: 54
+Lose. Length: 15
+Game: 55
+Lose. Length: 32
+Game: 56
+Lose. Length: 23
+Game: 57
+Lose. Length: 20
+Game: 58
+Lose. Length: 9
+Game: 59
+Lose. Length: 24
+Game: 60
+Lose. Length: 11
+Game: 61
+Lose. Length: 14
+Game: 62
+Lose. Length: 19
+Game: 63
+Lose. Length: 24
+Game: 64
+Lose. Length: 17
+Game: 65
+Lose. Length: 24
+Game: 66
+Lose. Length: 9
+Game: 67
+Lose. Length: 24
+Game: 68
+Lose. Length: 21
+Game: 69
+Lose. Length: 14
+Game: 70
+Lose. Length: 19
+Game: 71
+Lose. Length: 22
+Game: 72
+Lose. Length: 13
+Game: 73
+Lose. Length: 12
+Game: 74
+Lose. Length: 23
+Game: 75
+Lose. Length: 24
+Game: 76
+Lose. Length: 15
+Game: 77
+Lose. Length: 14
+Game: 78
+Lose. Length: 9
+Game: 79
+Lose. Length: 24
+Game: 80
+Lose. Length: 17
+Game: 81
+Lose. Length: 20
+Game: 82
+Lose. Length: 9
+Game: 83
+Lose. Length: 20
+Game: 84
+Lose. Length: 19
+Game: 85
+Lose. Length: 16
+Game: 86
+Lose. Length: 13
+Game: 87
+Lose. Length: 26
+Game: 88
+Lose. Length: 9
+Game: 89
+Lose. Length: 20
+Game: 90
+Lose. Length: 19
+Game: 91
+Lose. Length: 14
+Game: 92
+Lose. Length: 9
+Game: 93
+Lose. Length: 18
+Game: 94
+Lose. Length: 19
+Game: 95
+Lose. Length: 14
+Game: 96
+Lose. Length: 17
+Game: 97
+Lose. Length: 20
+Game: 98
+Lose. Length: 21
+Game: 99
+Lose. Length: 16
+Game: 100
+Lose. Length: 17
+Game: 101
+Lose. Length: 30
+Game: 102
+Lose. Length: 17
+Game: 103
+Lose. Length: 20
+Game: 104
+Lose. Length: 15
+Game: 105
+Lose. Length: 18
+Game: 106
+Lose. Length: 15
+Game: 107
+Lose. Length: 22
+Game: 108
+Lose. Length: 9
+Game: 109
+Lose. Length: 16
+Game: 110
+Win. Length: 16
+Game: 111
+Lose. Length: 20
+Game: 112
+Lose. Length: 19
+Game: 113
+Lose. Length: 16
+Game: 114
+Lose. Length: 15
+Game: 115
+Lose. Length: 16
+Game: 116
+Lose. Length: 19
+Game: 117
+Lose. Length: 22
+Game: 118
+Lose. Length: 17
+Game: 119
+Lose. Length: 18
+Game: 120
+Lose. Length: 9
+Game: 121
+Lose. Length: 16
+Game: 122
+Lose. Length: 17
+Game: 123
+Lose. Length: 22
+Game: 124
+Lose. Length: 19
+Game: 125
+Lose. Length: 18
+Game: 126
+Lose. Length: 17
+Game: 127
+Lose. Length: 18
+Game: 128
+Lose. Length: 17
+Game: 129
+Lose. Length: 18
+Game: 130
+Lose. Length: 17
+Game: 131
+Lose. Length: 20
+Game: 132
+Lose. Length: 17
+Game: 133
+Lose. Length: 28
+Game: 134
+Lose. Length: 29
+Game: 135
+Lose. Length: 16
+Game: 136
+Lose. Length: 21
+Game: 137
+Lose. Length: 20
+Game: 138
+Lose. Length: 21
+Game: 139
+Lose. Length: 20
+Game: 140
+Lose. Length: 11
+Game: 141
+Lose. Length: 22
+Game: 142
+Lose. Length: 15
+Game: 143
+Lose. Length: 12
+Game: 144
+Lose. Length: 19
+Game: 145
+Lose. Length: 20
+Game: 146
+Lose. Length: 27
+Game: 147
+Lose. Length: 16
+Game: 148
+Lose. Length: 17
+Game: 149
+Lose. Length: 14
+Game: 150
+Lose. Length: 15
+Game: 151
+Lose. Length: 20
+Game: 152
+Lose. Length: 29
+Game: 153
+Lose. Length: 24
+Game: 154
+Lose. Length: 19
+Game: 155
+Lose. Length: 24
+Game: 156
+Lose. Length: 21
+Game: 157
+Lose. Length: 16
+Game: 158
+Lose. Length: 19
+Game: 159
+Lose. Length: 24
+Game: 160
+Lose. Length: 29
+Game: 161
+Lose. Length: 18
+Game: 162
+Lose. Length: 17
+Game: 163
+Lose. Length: 20
+Game: 164
+Lose. Length: 13
+Game: 165
+Lose. Length: 16
+Game: 166
+Lose. Length: 9
+Game: 167
+Lose. Length: 16
+Game: 168
+Lose. Length: 19
+Game: 169
+Lose. Length: 18
+Game: 170
+Lose. Length: 27
+Game: 171
+Lose. Length: 18
+Game: 172
+Lose. Length: 23
+Game: 173
+Lose. Length: 20
+Game: 174
+Lose. Length: 9
+Game: 175
+Lose. Length: 26
+Game: 176
+Lose. Length: 13
+Game: 177
+Lose. Length: 20
+Game: 178
+Lose. Length: 17
+Game: 179
+Lose. Length: 18
+Game: 180
+Lose. Length: 13
+Game: 181
+Lose. Length: 24
+Game: 182
+Lose. Length: 23
+Game: 183
+Lose. Length: 16
+Game: 184
+Lose. Length: 19
+Game: 185
+Lose. Length: 12
+Game: 186
+Lose. Length: 17
+Game: 187
+Lose. Length: 16
+Game: 188
+Lose. Length: 29
+Game: 189
+Lose. Length: 14
+Game: 190
+Lose. Length: 21
+Game: 191
+Lose. Length: 14
+Game: 192
+Lose. Length: 17
+Game: 193
+Lose. Length: 20
+Game: 194
+Lose. Length: 31
+Game: 195
+Lose. Length: 16
+Game: 196
+Lose. Length: 9
+Game: 197
+Lose. Length: 20
+Game: 198
+Lose. Length: 29
+Game: 199
+Lose. Length: 16
+Game: 200
+Lose. Length: 9
+Game: 201
+Lose. Length: 18
+Game: 202
+Lose. Length: 17
+Game: 203
+Lose. Length: 16
+Game: 204
+Lose. Length: 19
+Game: 205
+Lose. Length: 24
+Game: 206
+Lose. Length: 9
+Game: 207
+Lose. Length: 16
+Game: 208
+Lose. Length: 21
+Game: 209
+Lose. Length: 20
+Game: 210
+Lose. Length: 19
+Game: 211
+Lose. Length: 18
+Game: 212
+Lose. Length: 23
+Game: 213
+Lose. Length: 12
+Game: 214
+Lose. Length: 21
+Game: 215
+Lose. Length: 18
+Game: 216
+Lose. Length: 21
+Game: 217
+Lose. Length: 14
+Game: 218
+Lose. Length: 21
+Game: 219
+Lose. Length: 16
+Game: 220
+Lose. Length: 17
+Game: 221
+Lose. Length: 16
+Game: 222
+Lose. Length: 19
+Game: 223
+Lose. Length: 30
+Game: 224
+Lose. Length: 21
+Game: 225
+Lose. Length: 16
+Game: 226
+Lose. Length: 17
+Game: 227
+Lose. Length: 18
+Game: 228
+Lose. Length: 11
+Game: 229
+Lose. Length: 16
+Game: 230
+Lose. Length: 17
+Game: 231
+Lose. Length: 16
+Game: 232
+Lose. Length: 21
+Game: 233
+Lose. Length: 12
+Game: 234
+Lose. Length: 15
+Game: 235
+Lose. Length: 18
+Game: 236
+Lose. Length: 23
+Game: 237
+Lose. Length: 34
+Game: 238
+Lose. Length: 21
+Game: 239
+Lose. Length: 10
+Game: 240
+Lose. Length: 25
+Game: 241
+Lose. Length: 20
+Game: 242
+Lose. Length: 15
+Game: 243
+Lose. Length: 20
+Game: 244
+Lose. Length: 15
+Game: 245
+Lose. Length: 28
+Game: 246
+Lose. Length: 19
+Game: 247
+Lose. Length: 16
+Game: 248
+Lose. Length: 17
+Game: 249
+Lose. Length: 22
+Game: 250
+Lose. Length: 23
+Game: 251
+Lose. Length: 28
+Game: 252
+Lose. Length: 23
+Game: 253
+Lose. Length: 18
+Game: 254
+Lose. Length: 15
+Game: 255
+Lose. Length: 14
+Game: 256
+Lose. Length: 15
+Game: 257
+Lose. Length: 16
+Game: 258
+Lose. Length: 25
+Game: 259
+Lose. Length: 20
+Game: 260
+Lose. Length: 25
+Game: 261
+Lose. Length: 26
+Game: 262
+Lose. Length: 19
+Game: 263
+Lose. Length: 20
+Game: 264
+Lose. Length: 19
+Game: 265
+Lose. Length: 10
+Game: 266
+Lose. Length: 17
+Game: 267
+Lose. Length: 12
+Game: 268
+Lose. Length: 17
+Game: 269
+Lose. Length: 22
+Game: 270
+Lose. Length: 17
+Game: 271
+Lose. Length: 16
+Game: 272
+Lose. Length: 29
+Game: 273
+Lose. Length: 22
+Game: 274
+Lose. Length: 23
+Game: 275
+Lose. Length: 16
+Game: 276
+Lose. Length: 21
+Game: 277
+Lose. Length: 16
+Game: 278
+Lose. Length: 11
+Game: 279
+Lose. Length: 22
+Game: 280
+Lose. Length: 17
+Game: 281
+Lose. Length: 18
+Game: 282
+Lose. Length: 21
+Game: 283
+Lose. Length: 26
+Game: 284
+Lose. Length: 23
+Game: 285
+Lose. Length: 24
+Game: 286
+Lose. Length: 29
+Game: 287
+Lose. Length: 24
+Game: 288
+Lose. Length: 9
+Game: 289
+Lose. Length: 22
+Game: 290
+Lose. Length: 19
+Game: 291
+Lose. Length: 18
+Game: 292
+Lose. Length: 25
+Game: 293
+Lose. Length: 24
+Game: 294
+Lose. Length: 19
+Game: 295
+Lose. Length: 28
+Game: 296
+Lose. Length: 19
+Game: 297
+Lose. Length: 30
+Game: 298
+Lose. Length: 17
+Game: 299
+Lose. Length: 14
+Game: 300
+Lose. Length: 17
+Game: 301
+Lose. Length: 20
+Game: 302
+Lose. Length: 19
+Game: 303
+Lose. Length: 12
+Game: 304
+Lose. Length: 23
+Game: 305
+Lose. Length: 20
+Game: 306
+Lose. Length: 25
+Game: 307
+Lose. Length: 16
+Game: 308
+Lose. Length: 9
+Game: 309
+Lose. Length: 16
+Game: 310
+Lose. Length: 15
+Game: 311
+Lose. Length: 24
+Game: 312
+Lose. Length: 27
+Game: 313
+Lose. Length: 24
+Game: 314
+Lose. Length: 19
+Game: 315
+Lose. Length: 16
+Game: 316
+Lose. Length: 17
+Game: 317
+Lose. Length: 18
+Game: 318
+Lose. Length: 23
+Game: 319
+Lose. Length: 26
+Game: 320
+Lose. Length: 19
+Game: 321
+Lose. Length: 16
+Game: 322
+Lose. Length: 21
+Game: 323
+Lose. Length: 26
+Game: 324
+Lose. Length: 17
+Game: 325
+Lose. Length: 16
+Game: 326
+Lose. Length: 21
+Game: 327
+Lose. Length: 18
+Game: 328
+Lose. Length: 11
+Game: 329
+Lose. Length: 24
+Game: 330
+Lose. Length: 19
+Game: 331
+Lose. Length: 24
+Game: 332
+Lose. Length: 17
+Game: 333
+Lose. Length: 20
+Game: 334
+Lose. Length: 21
+Game: 335
+Lose. Length: 12
+Game: 336
+Lose. Length: 21
+Game: 337
+Lose. Length: 18
+Game: 338
+Lose. Length: 23
+Game: 339
+Lose. Length: 20
+Game: 340
+Lose. Length: 15
+Game: 341
+Lose. Length: 24
+Game: 342
+Lose. Length: 19
+Game: 343
+Lose. Length: 18
+Game: 344
+Lose. Length: 27
+Game: 345
+Lose. Length: 20
+Game: 346
+Lose. Length: 15
+Game: 347
+Lose. Length: 18
+Game: 348
+Lose. Length: 27
+Game: 349
+Lose. Length: 18
+Game: 350
+Lose. Length: 23
+Game: 351
+Lose. Length: 12
+Game: 352
+Lose. Length: 11
+Game: 353
+Lose. Length: 24
+Game: 354
+Lose. Length: 9
+Game: 355
+Lose. Length: 32
+Game: 356
+Lose. Length: 19
+Game: 357
+Lose. Length: 18
+Game: 358
+Lose. Length: 11
+Game: 359
+Lose. Length: 16
+Game: 360
+Lose. Length: 21
+Game: 361
+Lose. Length: 16
+Game: 362
+Lose. Length: 9
+Game: 363
+Lose. Length: 10
+Game: 364
+Lose. Length: 17
+Game: 365
+Lose. Length: 18
+Game: 366
+Lose. Length: 21
+Game: 367
+Lose. Length: 20
+Game: 368
+Lose. Length: 11
+Game: 369
+Lose. Length: 18
+Game: 370
+Lose. Length: 17
+Game: 371
+Lose. Length: 22
+Game: 372
+Lose. Length: 19
+Game: 373
+Lose. Length: 14
+Game: 374
+Lose. Length: 17
+Game: 375
+Lose. Length: 14
+Game: 376
+Lose. Length: 15
+Game: 377
+Lose. Length: 20
+Game: 378
+Lose. Length: 19
+Game: 379
+Lose. Length: 18
+Game: 380
+Lose. Length: 13
+Game: 381
+Lose. Length: 14
+Game: 382
+Lose. Length: 27
+Game: 383
+Lose. Length: 18
+Game: 384
+Lose. Length: 17
+Game: 385
+Lose. Length: 22
+Game: 386
+Lose. Length: 9
+Game: 387
+Lose. Length: 18
+Game: 388
+Lose. Length: 23
+Game: 389
+Lose. Length: 18
+Game: 390
+Lose. Length: 9
+Game: 391
+Lose. Length: 20
+Game: 392
+Lose. Length: 21
+Game: 393
+Lose. Length: 16
+Game: 394
+Lose. Length: 21
+Game: 395
+Lose. Length: 28
+Game: 396
+Lose. Length: 15
+Game: 397
+Lose. Length: 18
+Game: 398
+Lose. Length: 17
+Game: 399
+Lose. Length: 26
+Game: 400
+Lose. Length: 17
+Game: 401
+Lose. Length: 14
+Game: 402
+Lose. Length: 15
+Game: 403
+Lose. Length: 18
+Game: 404
+Lose. Length: 17
+Game: 405
+Lose. Length: 20
+Game: 406
+Lose. Length: 17
+Game: 407
+Lose. Length: 28
+Game: 408
+Lose. Length: 19
+Game: 409
+Lose. Length: 12
+Game: 410
+Lose. Length: 9
+Game: 411
+Lose. Length: 26
+Game: 412
+Lose. Length: 17
+Game: 413
+Lose. Length: 18
+Game: 414
+Lose. Length: 31
+Game: 415
+Lose. Length: 30
+Game: 416
+Lose. Length: 25
+Game: 417
+Lose. Length: 26
+Game: 418
+Lose. Length: 23
+Game: 419
+Lose. Length: 10
+Game: 420
+Lose. Length: 15
+Game: 421
+Lose. Length: 12
+Game: 422
+Lose. Length: 23
+Game: 423
+Lose. Length: 22
+Game: 424
+Lose. Length: 27
+Game: 425
+Lose. Length: 24
+Game: 426
+Lose. Length: 15
+Game: 427
+Lose. Length: 16
+Game: 428
+Lose. Length: 9
+Game: 429
+Lose. Length: 18
+Game: 430
+Lose. Length: 23
+Game: 431
+Lose. Length: 16
+Game: 432
+Lose. Length: 21
+Game: 433
+Lose. Length: 18
+Game: 434
+Lose. Length: 23
+Game: 435
+Lose. Length: 18
+Game: 436
+Lose. Length: 15
+Game: 437
+Lose. Length: 20
+Game: 438
+Lose. Length: 23
+Game: 439
+Lose. Length: 22
+Game: 440
+Lose. Length: 19
+Game: 441
+Lose. Length: 18
+Game: 442
+Lose. Length: 17
+Game: 443
+Lose. Length: 26
+Game: 444
+Lose. Length: 21
+Game: 445
+Lose. Length: 18
+Game: 446
+Lose. Length: 9
+Game: 447
+Lose. Length: 16
+Game: 448
+Lose. Length: 11
+Game: 449
+Lose. Length: 12
+Game: 450
+Lose. Length: 31
+Game: 451
+Lose. Length: 20
+Game: 452
+Lose. Length: 23
+Game: 453
+Lose. Length: 20
+Game: 454
+Lose. Length: 19
+Game: 455
+Lose. Length: 18
+Game: 456
+Lose. Length: 17
+Game: 457
+Lose. Length: 16
+Game: 458
+Lose. Length: 23
+Game: 459
+Lose. Length: 18
+Game: 460
+Lose. Length: 25
+Game: 461
+Lose. Length: 10
+Game: 462
+Lose. Length: 15
+Game: 463
+Lose. Length: 32
+Game: 464
+Lose. Length: 33
+Game: 465
+Lose. Length: 26
+Game: 466
+Lose. Length: 21
+Game: 467
+Lose. Length: 28
+Game: 468
+Lose. Length: 15
+Game: 469
+Lose. Length: 18
+Game: 470
+Lose. Length: 9
+Game: 471
+Lose. Length: 16
+Game: 472
+Lose. Length: 17
+Game: 473
+Lose. Length: 18
+Game: 474
+Lose. Length: 17
+Game: 475
+Lose. Length: 16
+Game: 476
+Lose. Length: 17
+Game: 477
+Lose. Length: 22
+Game: 478
+Lose. Length: 27
+Game: 479
+Lose. Length: 16
+Game: 480
+Lose. Length: 19
+Game: 481
+Lose. Length: 16
+Game: 482
+Lose. Length: 17
+Game: 483
+Lose. Length: 28
+Game: 484
+Lose. Length: 15
+Game: 485
+Lose. Length: 20
+Game: 486
+Lose. Length: 23
+Game: 487
+Lose. Length: 20
+Game: 488
+Lose. Length: 9
+Game: 489
+Lose. Length: 16
+Game: 490
+Lose. Length: 25
+Game: 491
+Lose. Length: 12
+Game: 492
+Lose. Length: 23
+Game: 493
+Lose. Length: 20
+Game: 494
+Lose. Length: 21
+Game: 495
+Lose. Length: 18
+Game: 496
+Lose. Length: 9
+Game: 497
+Lose. Length: 26
+Game: 498
+Lose. Length: 19
+Game: 499
+Lose. Length: 14
+Game: 500
+Lose. Length: 19
+Game: 501
+Lose. Length: 16
+Game: 502
+Lose. Length: 9
+Game: 503
+Lose. Length: 16
+Game: 504
+Lose. Length: 23
+Game: 505
+Lose. Length: 22
+Game: 506
+Lose. Length: 23
+Game: 507
+Lose. Length: 16
+Game: 508
+Lose. Length: 21
+Game: 509
+Lose. Length: 20
+Game: 510
+Lose. Length: 29
+Game: 511
+Lose. Length: 14
+Game: 512
+Lose. Length: 13
+Game: 513
+Lose. Length: 20
+Game: 514
+Lose. Length: 17
+Game: 515
+Lose. Length: 22
+Game: 516
+Lose. Length: 9
+Game: 517
+Lose. Length: 18
+Game: 518
+Lose. Length: 17
+Game: 519
+Lose. Length: 22
+Game: 520
+Lose. Length: 31
+Game: 521
+Lose. Length: 20
+Game: 522
+Lose. Length: 11
+Game: 523
+Lose. Length: 20
+Game: 524
+Lose. Length: 21
+Game: 525
+Lose. Length: 18
+Game: 526
+Lose. Length: 11
+Game: 527
+Lose. Length: 16
+Game: 528
+Lose. Length: 15
+Game: 529
+Lose. Length: 26
+Game: 530
+Lose. Length: 25
+Game: 531
+Lose. Length: 24
+Game: 532
+Lose. Length: 15
+Game: 533
+Lose. Length: 18
+Game: 534
+Lose. Length: 15
+Game: 535
+Lose. Length: 18
+Game: 536
+Lose. Length: 19
+Game: 537
+Lose. Length: 16
+Game: 538
+Lose. Length: 17
+Game: 539
+Lose. Length: 16
+Game: 540
+Lose. Length: 23
+Game: 541
+Lose. Length: 16
+Game: 542
+Lose. Length: 17
+Game: 543
+Lose. Length: 16
+Game: 544
+Lose. Length: 21
+Game: 545
+Lose. Length: 20
+Game: 546
+Lose. Length: 27
+Game: 547
+Lose. Length: 20
+Game: 548
+Lose. Length: 17
+Game: 549
+Lose. Length: 30
+Game: 550
+Lose. Length: 19
+Game: 551
+Lose. Length: 16
+Game: 552
+Lose. Length: 27
+Game: 553
+Lose. Length: 24
+Game: 554
+Lose. Length: 25
+Game: 555
+Lose. Length: 24
+Game: 556
+Lose. Length: 19
+Game: 557
+Lose. Length: 28
+Game: 558
+Lose. Length: 17
+Game: 559
+Lose. Length: 20
+Game: 560
+Lose. Length: 15
+Game: 561
+Lose. Length: 16
+Game: 562
+Lose. Length: 25
+Game: 563
+Lose. Length: 16
+Game: 564
+Lose. Length: 19
+Game: 565
+Lose. Length: 16
+Game: 566
+Lose. Length: 19
+Game: 567
+Lose. Length: 14
+Game: 568
+Lose. Length: 15
+Game: 569
+Lose. Length: 18
+Game: 570
+Lose. Length: 15
+Game: 571
+Lose. Length: 28
+Game: 572
+Lose. Length: 23
+Game: 573
+Lose. Length: 18
+Game: 574
+Lose. Length: 17
+Game: 575
+Lose. Length: 14
+Game: 576
+Lose. Length: 9
+Game: 577
+Lose. Length: 20
+Game: 578
+Lose. Length: 23
+Game: 579
+Lose. Length: 20
+Game: 580
+Lose. Length: 21
+Game: 581
+Lose. Length: 16
+Game: 582
+Lose. Length: 17
+Game: 583
+Lose. Length: 16
+Game: 584
+Lose. Length: 31
+Game: 585
+Lose. Length: 18
+Game: 586
+Lose. Length: 21
+Game: 587
+Lose. Length: 16
+Game: 588
+Lose. Length: 11
+Game: 589
+Lose. Length: 22
+Game: 590
+Lose. Length: 35
+Game: 591
+Lose. Length: 14
+Game: 592
+Lose. Length: 25
+Game: 593
+Lose. Length: 26
+Game: 594
+Lose. Length: 17
+Game: 595
+Lose. Length: 24
+Game: 596
+Lose. Length: 13
+Game: 597
+Lose. Length: 32
+Game: 598
+Lose. Length: 15
+Game: 599
+Lose. Length: 20
+Game: 600
+Lose. Length: 21
+Game: 601
+Lose. Length: 28
+Game: 602
+Lose. Length: 9
+Game: 603
+Lose. Length: 24
+Game: 604
+Lose. Length: 21
+Game: 605
+Lose. Length: 20
+Game: 606
+Lose. Length: 17
+Game: 607
+Lose. Length: 18
+Game: 608
+Lose. Length: 25
+Game: 609
+Lose. Length: 18
+Game: 610
+Lose. Length: 21
+Game: 611
+Lose. Length: 20
+Game: 612
+Lose. Length: 15
+Game: 613
+Lose. Length: 20
+Game: 614
+Lose. Length: 15
+Game: 615
+Lose. Length: 14
+Game: 616
+Lose. Length: 19
+Game: 617
+Lose. Length: 18
+Game: 618
+Lose. Length: 19
+Game: 619
+Lose. Length: 16
+Game: 620
+Lose. Length: 11
+Game: 621
+Lose. Length: 20
+Game: 622
+Lose. Length: 29
+Game: 623
+Lose. Length: 22
+Game: 624
+Lose. Length: 21
+Game: 625
+Lose. Length: 12
+Game: 626
+Lose. Length: 19
+Game: 627
+Lose. Length: 16
+Game: 628
+Lose. Length: 21
+Game: 629
+Lose. Length: 12
+Game: 630
+Lose. Length: 21
+Game: 631
+Lose. Length: 16
+Game: 632
+Lose. Length: 15
+Game: 633
+Lose. Length: 22
+Game: 634
+Lose. Length: 19
+Game: 635
+Lose. Length: 26
+Game: 636
+Lose. Length: 27
+Game: 637
+Lose. Length: 16
+Game: 638
+Lose. Length: 19
+Game: 639
+Lose. Length: 22
+Game: 640
+Lose. Length: 25
+Game: 641
+Lose. Length: 20
+Game: 642
+Lose. Length: 21
+Game: 643
+Lose. Length: 24
+Game: 644
+Lose. Length: 31
+Game: 645
+Lose. Length: 24
+Game: 646
+Lose. Length: 11
+Game: 647
+Lose. Length: 20
+Game: 648
+Lose. Length: 23
+Game: 649
+Lose. Length: 28
+Game: 650
+Lose. Length: 17
+Game: 651
+Lose. Length: 20
+Game: 652
+Lose. Length: 23
+Game: 653
+Lose. Length: 18
+Game: 654
+Lose. Length: 19
+Game: 655
+Lose. Length: 20
+Game: 656
+Lose. Length: 9
+Game: 657
+Lose. Length: 18
+Game: 658
+Lose. Length: 19
+Game: 659
+Lose. Length: 26
+Game: 660
+Lose. Length: 19
+Game: 661
+Lose. Length: 14
+Game: 662
+Lose. Length: 17
+Game: 663
+Lose. Length: 18
+Game: 664
+Lose. Length: 19
+Game: 665
+Lose. Length: 24
+Game: 666
+Lose. Length: 15
+Game: 667
+Lose. Length: 22
+Game: 668
+Lose. Length: 13
+Game: 669
+Lose. Length: 16
+Game: 670
+Lose. Length: 23
+Game: 671
+Lose. Length: 20
+Game: 672
+Lose. Length: 17
+Game: 673
+Lose. Length: 16
+Game: 674
+Lose. Length: 15
+Game: 675
+Lose. Length: 16
+Game: 676
+Lose. Length: 23
+Game: 677
+Lose. Length: 28
+Game: 678
+Lose. Length: 17
+Game: 679
+Lose. Length: 10
+Game: 680
+Lose. Length: 15
+Game: 681
+Lose. Length: 22
+Game: 682
+Lose. Length: 9
+Game: 683

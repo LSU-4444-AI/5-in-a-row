@@ -14,7 +14,7 @@ public class ZeroBot extends NeuralBot{
 
 	public ZeroBot(Board board, int xOrO) {
 		//Look up good starting values for the numbers in the constructor
-		super(board, xOrO, "Zero", true, 256);
+		super(board, xOrO, "Zero_400_000_Games", true, 256);
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class ZeroBot extends NeuralBot{
 	public static void main(String[] args){
 		Board b=new Board(11);
 		ZeroBot bot= new ZeroBot(b,1);
-		bot.print("Training ZeroBot");
+		//bot.print("Training ZeroBot");
 		bot.practice();
 	}
 
