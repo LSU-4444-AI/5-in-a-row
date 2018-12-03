@@ -14,7 +14,7 @@ import state.Move;
 
 public class AiTest extends JPanel implements Player
 {
-    int xOrO;
+	int xOrO;
     JButton buttons[] = new JButton[121];
     Board board;
     Move move;
@@ -114,12 +114,14 @@ public class AiTest extends JPanel implements Player
 // when a button is clicked, it generates an ActionEvent. Thus, each button needs an ActionListener. When it is clicked, it goes to this listener class that I have created and goes to the actionPerformed method. There (and in this class), we decide what we want to do.
     private class buttonListener implements ActionListener
     {
+    	
+    	
         public void actionPerformed(ActionEvent e) 
         {
             MatrixButton buttonClicked = (MatrixButton)e.getSource(); //get the particular button that was clicked
             if (buttonClicked.getText().equals(""))
             {
-                if(this.xOrO == Board.CROSS){
+                if(xOrO == Board.CROSS){
                     buttonClicked.setText("X");
                     buttonClicked.setForeground(Color.RED);
                 }
@@ -136,9 +138,10 @@ public class AiTest extends JPanel implements Player
             }
         }
     }
-        public boolean checkForWin()
-        {
-            return false; 
+    
+    public boolean checkForWin()
+    {
+        return false; 
             /**
             //   Reference: the button array is arranged like this as the board
             //     0 | 1 | 2
@@ -169,15 +172,42 @@ public class AiTest extends JPanel implements Player
             else 
                 return false;
             **/  
+    }
+    
+    public boolean checkAdjacent(int a, int b)
+    {
+        if ( buttons[a].getText().equals(buttons[b].getText()) && !buttons[a].getText().equals("")) return true;
+        else return false;
+    }
+    
+    
+    private class MatrixButton extends JButton
+    {
+    	private final int row;
+        private final int col;
+
+        public MatrixButton(String t, int col, int row) {
+           	super(t);
+           	this.row = row;
+           	this.col = col;
         }
-        public boolean checkAdjacent(int a, int b)
-        {
-            if ( buttons[a].getText().equals(buttons[b].getText()) && !buttons[a].getText().equals("")) return true;
-            else return false;
+
+        public int getRow() {
+            return row;
         }
-    
-    
-    
+
+        public int getCol() {
+        	return col;
+        }
+            
+        public int serialize(int size){
+           	return row * size + col;
+        }
+           
+        public int serialize(int size, int r, int c){
+          	return r * size + c;
+        }
+    }
     
     
     
@@ -218,7 +248,7 @@ public class AiTest extends JPanel implements Player
          while (ai.checkForWin()==false)  
          {    
              //if (ai.turn>0)
-                if (ai.turn%2==0){           
+                if (ai.xOrO == 1){           
                  txt.setText("Player 1:  X    [Player 1's Turn]     Player 2:  O");
                  txt.setForeground(Color.RED);
                 }
@@ -226,34 +256,6 @@ public class AiTest extends JPanel implements Player
                     txt.setText("Player 1:  X    [Player 2's Turn]     Player 2:  O");
                     txt.setForeground(Color.BLUE);
                 }
-        }
-    }
-    
-    private class MatrixButton extends JButton
-    {
-    	private final int row;
-        private final int col;
-
-        public MatrixButton(String t, int col, int row) {
-        	super(t);
-        	this.row = row;
-        	this.col = col;
-        }
-
-        public int getRow() {
-        return row;
-        }
-
-        public int getCol() {
-        return col;
-        }
-        
-        public int serialize(int size){
-        	return row * size + col;
-        }
-        
-        public int serialize(int size, int r, int c){
-        	return r * size + c;
         }
     }
 }
