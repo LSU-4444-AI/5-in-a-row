@@ -36,6 +36,35 @@ public class Utility {
         br.close();
 	}
 	
+	/** Extract wins from data.
+	 * 
+	 * @param filePath
+	 * @throws IOException
+	 */
+	static void ties(String filePath, String newFilePath) throws IOException{
+		FileReader reader=new FileReader(filePath);
+		BufferedReader br = new BufferedReader(reader);
+        FileWriter writer = new FileWriter(newFilePath);
+        BufferedWriter bw = new BufferedWriter(writer);
+        String line = null;
+        br.readLine();
+        String nbr=null;
+		while((line = br.readLine()) != null) {
+			switch(line.charAt(0)){
+			case 'G': 
+				nbr=cleanUp(line);
+				break;
+			case 'T': 
+	            bw.write(nbr);
+	            bw.newLine();
+			}
+
+        }  
+		
+        bw.close();
+        br.close();
+	}
+	
 	/** Removes everything except numbers from textfile
 	 * 
 	 * @param filePath
@@ -71,7 +100,7 @@ public class Utility {
 	
 	public static void main(String[] args){
 		try {
-			cleanUp("output_preproc2.txt", "PreProc2_20_000_data.txt");
+			wins("output_zero_500_000.txt", "Zero_500_000_wins.txt");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
